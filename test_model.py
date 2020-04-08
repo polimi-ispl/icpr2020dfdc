@@ -36,7 +36,7 @@ def main():
     parser.add_argument('--models_dir', type=Path, help='Directory for saving the models weights', default='./weights/')
     parser.add_argument('--num_video', type=int, help='Number of real-fake videos to test', default=2000)
     parser.add_argument('--model_path', type=Path, help='Path of the tested model')
-    parser.add_argument('--out_root', type=Path, help='Output folder', default='test_scores')
+    parser.add_argument('--out_root', type=Path, help='Output folder', default='/nas/public/exchange/icpr2020/test_scores')
     parser.add_argument('--override', action='store_true', help='Override existing results', )
     parser.add_argument('--debug', action='store_true', help='Debug flag', )
     parser.add_argument('--trainval', action='store_true', help='Activate validation on training set')
@@ -134,15 +134,15 @@ def main():
     # Append train and validation set first
     for idx, dataset in enumerate(test_sets):
         extr_list.append(
-            (dfs_out_train[idx], out_folder.joinpath(test_sets + '_train.pkl'), train_roots[idx], dataset+' TRAIN')
+            (dfs_out_train[idx], out_folder.joinpath(dataset + '_train.pkl'), train_roots[idx], dataset+' TRAIN')
         )
     for idx, dataset in enumerate(test_sets):
         extr_list.append(
-            (dfs_out_val[idx], out_folder.joinpath(test_sets + '_val.pkl'), val_roots[idx], dataset+' VAL')
+            (dfs_out_val[idx], out_folder.joinpath(dataset + '_val.pkl'), val_roots[idx], dataset+' VAL')
         )
     for idx, dataset in enumerate(test_sets):
         extr_list.append(
-            (dfs_out_test[idx], out_folder.joinpath(test_sets+'_test.pkl'), test_roots[idx], dataset+' TEST')
+            (dfs_out_test[idx], out_folder.joinpath(dataset + '_test.pkl'), test_roots[idx], dataset+' TEST')
         )
 
     for df, df_path, df_root, tag in extr_list:
