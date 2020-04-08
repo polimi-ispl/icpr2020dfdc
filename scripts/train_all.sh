@@ -55,7 +55,7 @@ python train_triplet.py \
 --lr 1e-5 \
 --valint 500 \
 --patience 10 \
---maxiter 30000 \
+--maxiter 60000 \
 --seed 41 \
 --attention \
 --embedding \
@@ -89,10 +89,10 @@ python train_triplet.py \
 --face scale \
 --size 224 \
 --batch 12 \
---lr 1e-5 \
+--lr 1e-6 \
 --valint 500 \
 --patience 10 \
---maxiter 30000 \
+--maxiter 60000 \
 --seed 41 \
 --attention \
 --embedding \
@@ -209,7 +209,7 @@ python train_triplet.py \
 --lr 1e-5 \
 --valint 500 \
 --patience 10 \
---maxiter 30000 \
+--maxiter 60000 \
 --seed 41 \
 --attention \
 --embedding \
@@ -246,7 +246,7 @@ python train_triplet.py \
 --lr 1e-5 \
 --valint 500 \
 --patience 10 \
---maxiter 30000 \
+--maxiter 60000 \
 --seed 41 \
 --attention \
 --embedding \
