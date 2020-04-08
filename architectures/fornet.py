@@ -1,6 +1,7 @@
 import torch
 from efficientnet_pytorch import EfficientNet
 from torch import nn as nn
+from torch.nn import functional as F
 from torchvision import transforms
 
 from . import externals
@@ -158,7 +159,11 @@ class Xception(FeatureExtractor):
         self.xception.last_linear = nn.Linear(2048, 1)
 
     def features(self, x: torch.Tensor) -> torch.Tensor:
-        return self.xception.features(x)
+        x = self.xception.features(x)
+        x = nn.ReLU(inplace=True)(x)
+        x = F.adaptive_avg_pool2d(x, (1, 1))
+        x = x.view(x.size(0), -1)
+        return x
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.xception.forward(x)
@@ -213,4 +218,4 @@ class EfficientNetAutoAttB4ST(SiameseTuning):
 
 class XceptionST(SiameseTuning):
     def __init__(self):
-        super(XceptionST, self).__init__(feat_ext=EfficientNetB4, num_feat=2048, lastonly=True)
+        super(XceptionST, self).__init__(feat_ext=Xception, num_feat=2048, lastonly=True)
