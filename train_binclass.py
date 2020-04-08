@@ -151,7 +151,7 @@ def main():
         state = torch.load(last_path, map_location='cpu')
         net_state = state['net']
         opt_state = state['opt']
-        iteration = state['iteration']
+        iteration = state['iteration']+1
         epoch = state['epoch']
     if not train_from_scratch and os.path.exists(bestval_path):
         state = torch.load(bestval_path, map_location='cpu')
