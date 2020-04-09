@@ -35,7 +35,7 @@ def main():
     parser.add_argument('--valdb', type=str, help='Validation datasets', nargs='+', choices=split.available_datasets,
                         required=True)
     parser.add_argument('--face', type=str, help='Face crop or scale', required=True,
-                        choices=['crop', 'scale', 'tight'])
+                        choices=['scale', 'tight'])
     parser.add_argument('--size', type=int, help='Train patch size', required=True)
 
     parser.add_argument('--batch', type=int, help='Batch size to fit in GPU memory', default=32)
@@ -151,7 +151,7 @@ def main():
         state = torch.load(last_path, map_location='cpu')
         net_state = state['net']
         opt_state = state['opt']
-        iteration = state['iteration']+1
+        iteration = state['iteration'] + 1
         epoch = state['epoch']
     if not train_from_scratch and os.path.exists(bestval_path):
         state = torch.load(bestval_path, map_location='cpu')

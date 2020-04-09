@@ -4,7 +4,7 @@ import albumentations as A
 import pandas as pd
 from albumentations.pytorch import ToTensorV2
 
-from .data import load_face, FrameFaceIterableDataset, get_iterative_real_fake_idxs
+from .data import FrameFaceIterableDataset, get_iterative_real_fake_idxs
 
 
 class FrameFaceTripletIterableDataset(FrameFaceIterableDataset):
