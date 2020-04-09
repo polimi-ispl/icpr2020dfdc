@@ -14,35 +14,51 @@ from tqdm import tqdm
 
 from architectures import fornet
 from architectures.fornet import FeatureExtractor
-from isplutils.data import FrameFaceDatasetTest
 from isplutils import utils, split
+from isplutils.data import FrameFaceDatasetTest
 
 
 def main():
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument('--device', type=int, help='GPU id', default=0)
-    parser.add_argument('--size', type=int, help='Train patch size', default=224)
-    parser.add_argument('--workers', type=int, help='Num workers for data loaders', default=16)
-    parser.add_argument('--batch', type=int, help='Batch size to fit in GPU memory', default=16)
-    parser.add_argument('--net', type=str, help='Net model class')
-    parser.add_argument('--weights', type=Path, help='Weight file', default='bestval.pth')
-    parser.add_argument('--suffix', type=str, help='Suffix to default tag')
-    parser.add_argument('--face', type=str, help='Face crop or scale', default='scale',
-                        choices=['crop', 'scale', 'tight', 'parts'])
-    parser.add_argument('--traindb', type=str, action='store', help='Dataset used for training')
-    parser.add_argument('--seed', type=int, help='Random seed used for training', default=0)
-    parser.add_argument('--postcrop', type=int, help='Post-loading central cropping', )
-    parser.add_argument('--models_dir', type=Path, help='Directory for saving the models weights', default='./weights/')
-    parser.add_argument('--num_video', type=int, help='Number of real-fake videos to test', default=2000)
-    parser.add_argument('--model_path', type=Path, help='Path of the tested model')
-    parser.add_argument('--out_root', type=Path, help='Output folder', default='/nas/public/exchange/icpr2020/test_scores')
-    parser.add_argument('--override', action='store_true', help='Override existing results', )
-    parser.add_argument('--debug', action='store_true', help='Debug flag', )
-    parser.add_argument('--trainval', action='store_true', help='Activate validation on training set')
-    parser.add_argument('--intval', action='store_true', help='Activate validation on internal set')
+
     parser.add_argument('--testsets', type=str, help='Testing datasets', nargs='+', choices=split.available_datasets,
                         required=True)
+    parser.add_argument('--testsplits', type=str, help='Test split', nargs='+', default=['val', 'test'],
+                        choices=['train', 'val', 'test'])
+
+    # Alternative 1: Specify training params
+    parser.add_argument('--net', type=str, help='Net model class')
+    parser.add_argument('--traindb', type=str, action='store', help='Dataset used for training')
+    parser.add_argument('--face', type=str, help='Face crop or scale', default='scale',
+                        choices=['scale', 'tight'])
+    parser.add_argument('--size', type=int, help='Train patch size')
+
+    weights_group = parser.add_mutually_exclusive_group(required=True)
+    weights_group.add_argument('--weights', type=Path, help='Weight filename', default='bestval.pth')
+
+    # Alternative 2: Specify trained model path
+    weights_group.add_argument('--model_path', type=Path, help='Full path of the trained model')
+
+    # Common params
+    parser.add_argument('--batch', type=int, help='Batch size to fit in GPU memory', default=128)
+
+    parser.add_argument('--workers', type=int, help='Num workers for data loaders', default=6)
+    parser.add_argument('--device', type=int, help='GPU id', default=0)
+    parser.add_argument('--seed', type=int, help='Random seed used for training', default=0)
+
+    parser.add_argument('--debug', action='store_true', help='Debug flag', )
+    parser.add_argument('--suffix', type=str, help='Suffix to default tag')
+
+    parser.add_argument('--models_dir', type=Path, help='Folder with trained models',
+                        default='/nas/public/exchange/icpr2020/weights/')
+
+    parser.add_argument('--num_video', type=int, help='Number of real-fake videos to test')
+    parser.add_argument('--results_dir', type=Path, help='Output folder',
+                        default='/nas/public/exchange/icpr2020/results/')
+
+    parser.add_argument('--override', action='store_true', help='Override existing results', )
+
     args = parser.parse_args()
 
     device = torch.device('cuda:{}'.format(args.device)) if torch.cuda.is_available() else torch.device('cpu')
@@ -52,17 +68,17 @@ def main():
     net_name: str = args.net
     weights: Path = args.weights
     suffix: str = args.suffix
-    face_crop_scale: str = args.face
-    postcrop: int = args.postcrop
+    face_policy: str = args.face
     models_dir: Path = args.models_dir
-    N: int = args.num_video  # number of real-fake videos to test
+    max_num_videos_per_label: int = args.num_video  # number of real-fake videos to test
     model_path: Path = args.model_path
-    out_root: Path = args.out_root
+    results_dir: Path = args.results_dir
     debug: bool = args.debug
     override: bool = args.override
     train_datasets = args.traindb
     seed: int = args.seed
     test_sets = args.testsets
+    test_splits = args.testsplits
 
     if model_path is None:
         if net_name is None:
@@ -70,7 +86,7 @@ def main():
 
         model_name = utils.make_train_tag(net_class=getattr(fornet, net_name),
                                           traindb=train_datasets,
-                                          face_policy=face_crop_scale,
+                                          face_policy=face_policy,
                                           patch_size=patch_size,
                                           seed=seed,
                                           suffix=suffix,
@@ -80,11 +96,10 @@ def main():
 
     else:
         # get arguments from the model path
-        face_crop_scale = str(model_path).split('face-')[1].split('_')[0]
+        face_policy = str(model_path).split('face-')[1].split('_')[0]
         patch_size = int(str(model_path).split('size-')[1].split('_')[0])
         net_name = str(model_path).split('net-')[1].split('_')[0]
-        model_name = str(model_path).split('/')[-2] + '_' + str(model_path).split('/')[-1].split('.pth')[0]
-
+        model_name = '_'.join(model_path.with_suffix('').parts[-2:])
 
     # Load net
     net_class = getattr(fornet, net_name)
@@ -97,9 +112,9 @@ def main():
         [state['net'].update({'model.{}'.format(k): v}) for k, v in state_tmp.items()]
     else:
         state = state_tmp
-    net: FeatureExtractor = net_class()
-    net = net.eval().to(device)
-    incomp_keys = net.load_state_dict(state['net'], strict=False)
+    net: FeatureExtractor = net_class().eval().to(device)
+
+    incomp_keys = net.load_state_dict(state['net'], strict=True)
     print(incomp_keys)
     print('Model loaded!')
 
@@ -107,8 +122,7 @@ def main():
     criterion = nn.BCEWithLogitsLoss(reduction='none')
 
     # Define data transformers
-    test_transformer = utils.get_test_transformer(face_crop_scale, patch_size, net.get_normalizer())
-
+    test_transformer = utils.get_transformer(face_policy, patch_size, net.get_normalizer(), train=False)
 
     # datasets and dataloaders (from train_binclass.py)
     print('Loading data...')
@@ -121,29 +135,37 @@ def main():
     test_roots = [splits['test'][db][1] for db in splits['test']]
 
     # Output paths
-    out_folder = out_root.joinpath(model_name)
+    out_folder = results_dir.joinpath(model_name)
     out_folder.mkdir(mode=0o775, parents=True, exist_ok=True)
 
     # Samples selection
-    dfs_out_train = [select_videos(df, N) for df in train_dfs]
-    dfs_out_val = [select_videos(df, N) for df in val_dfs]
-    dfs_out_test = [select_videos(df, N) for df in test_dfs]
+    if max_num_videos_per_label is not None:
+        dfs_out_train = [select_videos(df, max_num_videos_per_label) for df in train_dfs]
+        dfs_out_val = [select_videos(df, max_num_videos_per_label) for df in val_dfs]
+        dfs_out_test = [select_videos(df, max_num_videos_per_label) for df in test_dfs]
+    else:
+        dfs_out_train = train_dfs
+        dfs_out_val = val_dfs
+        dfs_out_test = test_dfs
 
     # Extractions list
     extr_list = []
     # Append train and validation set first
-    for idx, dataset in enumerate(test_sets):
-        extr_list.append(
-            (dfs_out_train[idx], out_folder.joinpath(dataset + '_train.pkl'), train_roots[idx], dataset+' TRAIN')
-        )
-    for idx, dataset in enumerate(test_sets):
-        extr_list.append(
-            (dfs_out_val[idx], out_folder.joinpath(dataset + '_val.pkl'), val_roots[idx], dataset+' VAL')
-        )
-    for idx, dataset in enumerate(test_sets):
-        extr_list.append(
-            (dfs_out_test[idx], out_folder.joinpath(dataset + '_test.pkl'), test_roots[idx], dataset+' TEST')
-        )
+    if 'train' in test_splits:
+        for idx, dataset in enumerate(test_sets):
+            extr_list.append(
+                (dfs_out_train[idx], out_folder.joinpath(dataset + '_train.pkl'), train_roots[idx], dataset + ' TRAIN')
+            )
+    if 'val' in test_splits:
+        for idx, dataset in enumerate(test_sets):
+            extr_list.append(
+                (dfs_out_val[idx], out_folder.joinpath(dataset + '_val.pkl'), val_roots[idx], dataset + ' VAL')
+            )
+    if 'test' in test_splits:
+        for idx, dataset in enumerate(test_sets):
+            extr_list.append(
+                (dfs_out_test[idx], out_folder.joinpath(dataset + '_test.pkl'), test_roots[idx], dataset + ' TEST')
+            )
 
     for df, df_path, df_root, tag in extr_list:
         if override or not df_path.exists():
@@ -154,9 +176,9 @@ def main():
             print('Fake videos: {}'.format(df[df['label'] == True]['video'].nunique()))
             dataset_out = process_dataset(root=df_root, df=df, net=net, criterion=criterion,
                                           patch_size=patch_size,
-                                          face_policy=face_crop_scale, transformer=test_transformer,
+                                          face_policy=face_policy, transformer=test_transformer,
                                           batch_size=batch_size,
-                                          num_workers=num_workers, device=device,)
+                                          num_workers=num_workers, device=device, )
             df['score'] = dataset_out['score'].astype(np.float32)
             df['loss'] = dataset_out['loss'].astype(np.float32)
             print('Saving results to: {}'.format(df_path))
@@ -229,6 +251,9 @@ def select_videos(df: pd.DataFrame, max_videos_per_label: int) -> pd.DataFrame:
     :param max_videos_per_label: maximum number of real and fake videos
     :return: DataFrame of selected frames
     """
+    # Save random state
+    st0 = np.random.get_state()
+    # Set seed for this selection only
     np.random.seed(42)
 
     df_fake = df[df.label == True]
@@ -240,6 +265,8 @@ def select_videos(df: pd.DataFrame, max_videos_per_label: int) -> pd.DataFrame:
     real_videos = df_real['video'].unique()
     selected_real_videos = np.random.choice(real_videos, min(max_videos_per_label, len(real_videos)), replace=False)
     df_selected_real_frames = df_real[df_real['video'].isin(selected_real_videos)]
+    # Restore random state
+    np.random.set_state(st0)
 
     return pd.concat((df_selected_fake_frames, df_selected_real_frames), axis=0, verify_integrity=True).copy()
 

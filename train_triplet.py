@@ -180,11 +180,8 @@ def main():
             warnings.simplefilter("ignore")
             tb.add_graph(net, [dummy, dummy, dummy], verbose=False)
 
-    transformer = utils.get_transformer(
-        face_policy=face_policy,
-        patch_size=face_size,
-        net_normalizer=net.get_normalizer()
-    )
+    transformer = utils.get_transformer(face_policy=face_policy, patch_size=face_size,
+                                        net_normalizer=net.get_normalizer(), train=True)
 
     # Datasets and data loaders
     print('Loading data')
