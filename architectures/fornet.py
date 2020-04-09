@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 import torch
 from efficientnet_pytorch import EfficientNet
 from torch import nn as nn
@@ -65,15 +67,26 @@ EfficientNetAutoAtt
 
 
 class EfficientNetAutoAtt(EfficientNet):
-    def init_att(self, model: str):
+    def init_att(self, model: str, width: int):
         """
         Initialize attention
         :param model: efficientnet-bx, x \in {0,..,7}
+        :param depth: attention width
         :return:
         """
         if model == 'efficientnet-b4':
             self.att_block_idx = 9
-            self.attconv = nn.Conv2d(kernel_size=1, in_channels=56, out_channels=1)
+            if width == 0:
+                self.attconv = nn.Conv2d(kernel_size=1, in_channels=56, out_channels=1)
+            else:
+                attconv_layers = []
+                for i in range(width):
+                    attconv_layers.append(
+                        ('conv{:d}'.format(i), nn.Conv2d(kernel_size=3, padding=1, in_channels=56, out_channels=56)))
+                    attconv_layers.append(
+                        ('relu{:d}'.format(i), nn.ReLU(inplace=True)))
+                attconv_layers.append(('conv_out',nn.Conv2d(kernel_size=1, in_channels=56, out_channels=1)))
+                self.attconv = nn.Sequential(OrderedDict(attconv_layers))
         else:
             raise ValueError('Model not valid: {}'.format(model))
 
@@ -118,11 +131,11 @@ class EfficientNetAutoAtt(EfficientNet):
 
 
 class EfficientNetGenAutoAtt(FeatureExtractor):
-    def __init__(self, model: str):
+    def __init__(self, model: str, width: int):
         super(EfficientNetGenAutoAtt, self).__init__()
 
         self.efficientnet = EfficientNetAutoAtt.from_pretrained(model)
-        self.efficientnet.init_att(model)
+        self.efficientnet.init_att(model, width)
         self.classifier = nn.Linear(self.efficientnet._conv_head.out_channels, 1)
         del self.efficientnet._fc
 
@@ -144,7 +157,12 @@ class EfficientNetGenAutoAtt(FeatureExtractor):
 
 class EfficientNetAutoAttB4(EfficientNetGenAutoAtt):
     def __init__(self):
-        super(EfficientNetAutoAttB4, self).__init__(model='efficientnet-b4')
+        super(EfficientNetAutoAttB4, self).__init__(model='efficientnet-b4', width=0)
+
+
+class EfficientNetAutoAttB4a(EfficientNetGenAutoAtt):
+    def __init__(self):
+        super(EfficientNetAutoAttB4a, self).__init__(model='efficientnet-b4', width=1)
 
 
 """
