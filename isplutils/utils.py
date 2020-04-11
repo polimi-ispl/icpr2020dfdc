@@ -9,6 +9,8 @@ from albumentations.pytorch import ToTensorV2
 from matplotlib import pyplot as plt
 from torch import nn as nn
 from torchvision import transforms
+import numpy as np
+import scipy
 
 
 def adapt_bb(frame_height: int, frame_width: int, bb_height: int, bb_width: int, left: int, top: int, right: int,
@@ -146,3 +148,43 @@ def get_transformer(face_policy: str, patch_size: int, net_normalizer: transform
     transf = A.Compose(
         loading_transformations + downsample_train_transformations + aug_transformations + final_transformations)
     return transf
+
+
+def aggregate(x, deadzone: float, pre_mult: float, policy: str, post_mult: float, clipmargin: float, params={}):
+    x = x.copy()
+    if deadzone > 0:
+        x = x[(x > deadzone) | (x < -deadzone)]
+        if len(x) == 0:
+            x = np.asarray([0, ])
+    if policy == 'mean':
+        x = np.mean(x)
+        x = scipy.special.expit(x * pre_mult)
+        x = (x - 0.5) * post_mult + 0.5
+    elif policy == 'sigmean':
+        x = scipy.special.expit(x * pre_mult).mean()
+        x = (x - 0.5) * post_mult + 0.5
+    elif policy == 'meanp':
+        pow_coeff = params.pop('p', 3)
+        x = np.mean(np.sign(x) * (np.abs(x) ** pow_coeff))
+        x = np.sign(x) * (np.abs(x) ** (1 / pow_coeff))
+        x = scipy.special.expit(x * pre_mult)
+        x = (x - 0.5) * post_mult + 0.5
+    elif policy == 'median':
+        x = scipy.special.expit(np.median(x) * pre_mult)
+        x = (x - 0.5) * post_mult + 0.5
+    elif policy == 'sigmedian':
+        x = np.median(scipy.special.expit(x * pre_mult))
+        x = (x - 0.5) * post_mult + 0.5
+    elif policy == 'maxabs':
+        x = np.min(x) if abs(np.min(x)) > abs(np.max(x)) else np.max(x)
+        x = scipy.special.expit(x * pre_mult)
+        x = (x - 0.5) * post_mult + 0.5
+    elif policy == 'avgvoting':
+        x = np.mean(np.sign(x))
+        x = (x * post_mult + 1) / 2
+    elif policy == 'voting':
+        x = np.sign(np.mean(x * pre_mult))
+        x = (x - 0.5) * post_mult + 0.5
+    else:
+        raise NotImplementedError()
+    return np.clip(x, clipmargin, 1 - clipmargin)
