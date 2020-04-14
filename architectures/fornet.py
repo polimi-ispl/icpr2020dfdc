@@ -85,7 +85,7 @@ class EfficientNetAutoAtt(EfficientNet):
                         ('conv{:d}'.format(i), nn.Conv2d(kernel_size=3, padding=1, in_channels=56, out_channels=56)))
                     attconv_layers.append(
                         ('relu{:d}'.format(i), nn.ReLU(inplace=True)))
-                attconv_layers.append(('conv_out',nn.Conv2d(kernel_size=1, in_channels=56, out_channels=1)))
+                attconv_layers.append(('conv_out', nn.Conv2d(kernel_size=1, in_channels=56, out_channels=1)))
                 self.attconv = nn.Sequential(OrderedDict(attconv_layers))
         else:
             raise ValueError('Model not valid: {}'.format(model))
@@ -163,6 +163,21 @@ class EfficientNetAutoAttB4(EfficientNetGenAutoAtt):
 class EfficientNetAutoAttB4a(EfficientNetGenAutoAtt):
     def __init__(self):
         super(EfficientNetAutoAttB4a, self).__init__(model='efficientnet-b4', width=1)
+
+
+"""
+Attention-only tuning
+"""
+
+
+class EfficientNetAutoAttB4AT(EfficientNetAutoAttB4):
+    def get_trainable_parameters(self):
+        return self.efficientnet.attconv.parameters()
+
+
+class EfficientNetAutoAttB4aAT(EfficientNetAutoAttB4a):
+    def get_trainable_parameters(self):
+        return self.efficientnet.attconv.parameters()
 
 
 """

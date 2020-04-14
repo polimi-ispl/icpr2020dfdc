@@ -267,6 +267,91 @@ python train_binclass.py \
 --attention \
 --device $DEVICE
 
+echo ""
+echo "-------------------------------------------------"
+echo "| Train EfficientNetAutoAttB4 on FFc23 (tuning) |"
+echo "-------------------------------------------------"
+python train_binclass.py \
+--net EfficientNetAutoAttB4 \
+--traindb ff-c23-720-140-140 \
+--valdb ff-c23-720-140-140 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 50 \
+--patience 10 \
+--maxiter 5000 \
+--seed 41 \
+--attention \
+--init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
+--suffix finetuning \
+--device $DEVICE
+
+
+echo ""
+echo "-------------------------------------------------"
+echo "| Train EfficientNetAutoAttB4 on DFDC  (tuning) |"
+echo "-------------------------------------------------"
+python train_binclass.py \
+--net EfficientNetAutoAttB4 \
+--traindb dfdc-35-5-10 \
+--valdb dfdc-35-5-10 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 50 \
+--patience 10 \
+--maxiter 5000 \
+--seed 41 \
+--attention \
+--init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
+--suffix finetuning \
+--device $DEVICE
+
+echo ""
+echo "---------------------------------------------------"
+echo "| Train EfficientNetAutoAttB4AT on FFc23 (tuning) |"
+echo "---------------------------------------------------"
+python train_binclass.py \
+--net EfficientNetAutoAttB4AT \
+--traindb ff-c23-720-140-140 \
+--valdb ff-c23-720-140-140 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 50 \
+--patience 10 \
+--maxiter 5000 \
+--seed 41 \
+--attention \
+--init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
+--suffix finetuning \
+--device $DEVICE
+
+
+echo ""
+echo "---------------------------------------------------"
+echo "| Train EfficientNetAutoAttB4AT on DFDC  (tuning) |"
+echo "---------------------------------------------------"
+python train_binclass.py \
+--net EfficientNetAutoAttB4AT \
+--traindb dfdc-35-5-10 \
+--valdb dfdc-35-5-10 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 50 \
+--patience 10 \
+--maxiter 5000 \
+--seed 41 \
+--attention \
+--init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
+--suffix finetuning \
+--device $DEVICE
 
 echo ""
 echo "-------------------------------------------------"
@@ -307,6 +392,91 @@ python train_binclass.py \
 --attention \
 --device $DEVICE
 
+echo ""
+echo "-------------------------------------------------"
+echo "| Train EfficientNetAutoAttB4a on FFc23 (tuning)|"
+echo "-------------------------------------------------"
+python train_binclass.py \
+--net EfficientNetAutoAttB4a \
+--traindb ff-c23-720-140-140 \
+--valdb ff-c23-720-140-140 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 50 \
+--patience 10 \
+--maxiter 5000 \
+--seed 41 \
+--attention \
+--init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
+--suffix finetuning \
+--device $DEVICE
+
+
+echo ""
+echo "-------------------------------------------------"
+echo "| Train EfficientNetAutoAttB4a on DFDC  (tuning)|"
+echo "-------------------------------------------------"
+python train_binclass.py \
+--net EfficientNetAutoAttB4a \
+--traindb dfdc-35-5-10 \
+--valdb dfdc-35-5-10 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 50 \
+--patience 10 \
+--maxiter 5000 \
+--seed 41 \
+--attention \
+--init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
+--suffix finetuning \
+--device $DEVICE
+
+echo ""
+echo "---------------------------------------------------"
+echo "| Train EfficientNetAutoAttB4aAT on FFc23 (tuning)|"
+echo "---------------------------------------------------"
+python train_binclass.py \
+--net EfficientNetAutoAttB4aAT \
+--traindb ff-c23-720-140-140 \
+--valdb ff-c23-720-140-140 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 50 \
+--patience 10 \
+--maxiter 5000 \
+--seed 41 \
+--attention \
+--init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
+--suffix finetuning \
+--device $DEVICE
+
+
+echo ""
+echo "---------------------------------------------------"
+echo "| Train EfficientNetAutoAttB4aAT on DFDC  (tuning)|"
+echo "---------------------------------------------------"
+python train_binclass.py \
+--net EfficientNetAutoAttB4aAT \
+--traindb dfdc-35-5-10 \
+--valdb dfdc-35-5-10 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 50 \
+--patience 10 \
+--maxiter 5000 \
+--seed 41 \
+--attention \
+--init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
+--suffix finetuning \
+--device $DEVICE
 
 echo ""
 echo "-------------------------------------------------"
