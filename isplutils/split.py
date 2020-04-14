@@ -6,6 +6,11 @@ import pandas as pd
 available_datasets = [
     'dfdc-35-5-10',
     'ff-c23-720-140-140',
+    'ff-c23-720-140-140-5fpv',
+    'ff-c23-720-140-140-10fpv',
+    'ff-c23-720-140-140-15fpv',
+    'ff-c23-720-140-140-20fpv',
+    'ff-c23-720-140-140-25fpv',
 ]
 
 
@@ -31,7 +36,7 @@ def get_split_df(df: pd.DataFrame, dataset: str, split: str) -> pd.DataFrame:
             split_df = df[df['folder'].isin(range(40, 50))]
         else:
             raise NotImplementedError('Unknown split: {}'.format(split))
-    elif dataset == 'ff-c23-720-140-140':
+    elif dataset.startswith('ff-c23-720-140-140'):
         # Save random state
         st0 = np.random.get_state()
         # Set seed for this selection only
@@ -51,6 +56,14 @@ def get_split_df(df: pd.DataFrame, dataset: str, split: str) -> pd.DataFrame:
             split_df = pd.concat((df[df['original'].isin(test_orig)], df[df['video'].isin(test_orig)]), axis=0)
         else:
             raise NotImplementedError('Unknown split: {}'.format(split))
+
+        if dataset.endswith('fpv'):
+            fpv = int(dataset.rsplit('-', 1)[1][:-3])
+            idxs = []
+            for video in split_df['video'].unique():
+                idxs.append(np.random.choice(split_df[split_df['video'] == video].index, fpv, replace=False))
+            idxs = np.concatenate(idxs)
+            split_df = split_df.loc[idxs]
         # Restore random state
         np.random.set_state(st0)
     else:
