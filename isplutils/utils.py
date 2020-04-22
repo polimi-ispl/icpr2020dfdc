@@ -13,6 +13,26 @@ import numpy as np
 import scipy
 
 
+def extract_meta_av(path: str) -> (int, int, int):
+    """
+    Extract video height, width and number of frames to index the files
+    :param path:
+    :return:
+    """
+    import av
+    try:
+        video = av.open(path)
+        video_stream = video.streams.video[0]
+        return video_stream.height, video_stream.width, video_stream.frames
+    except av.AVError as e:
+        print('Error while reading file: {}'.format(path))
+        print(e)
+        return 0, 0, 0
+    except IndexError as e:
+        print('Error while processing file: {}'.format(path))
+        print(e)
+        return 0, 0, 0
+
 def adapt_bb(frame_height: int, frame_width: int, bb_height: int, bb_width: int, left: int, top: int, right: int,
              bottom: int) -> (
         int, int, int, int):

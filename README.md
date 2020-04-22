@@ -4,7 +4,7 @@ Submitted to ICPR2020. Available on [arXiv](https://arxiv.org/abs/2004.07676).
 ## Getting started
 - Install [conda](https://docs.conda.io/en/latest/miniconda.html)
 - Create the proper environment with *environment.yml*
-- Train and test scripts are in the *scripts/* folder
+- Indexing, train and test scripts are in the *scripts/* folder
 - Notebooks for results computations are in the *notebook/* folder
 
 ## Datasets
