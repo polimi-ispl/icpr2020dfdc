@@ -1,7 +1,15 @@
 """
 Index FaceForensics++
 
-Author: Luca Bondi (luca.bondi@polimi.it)
+Video Face Manipulation Detection Through Ensemble of CNNs
+
+Image and Sound Processing Lab - Politecnico di Milano
+
+Nicolò Bonettini
+Edoardo Daniele Cannas
+Sara Mandelli
+Luca Bondi
+Paolo Bestagini
 """
 import argparse
 from multiprocessing import Pool

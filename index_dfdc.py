@@ -1,7 +1,15 @@
 """
 Index the official Kaggle training dataset and prepares a train and validation set based on folders
 
-Author: Luca Bondi (luca.bondi@polimi.it)
+Video Face Manipulation Detection Through Ensemble of CNNs
+
+Image and Sound Processing Lab - Politecnico di Milano
+
+Nicolò Bonettini
+Edoardo Daniele Cannas
+Sara Mandelli
+Luca Bondi
+Paolo Bestagini
 """
 import argparse
 from multiprocessing import Pool

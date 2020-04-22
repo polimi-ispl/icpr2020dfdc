@@ -14,3 +14,11 @@ Submitted to ICPR2020. Available on [arXiv](https://arxiv.org/abs/2004.07676).
 ## References
 - [EfficientNet PyTorch](https://github.com/lukemelas/EfficientNet-PyTorch)
 - [Xception PyTorch](https://github.com/tstandley/Xception-PyTorch)
+
+## Credits
+Image and Sound Processing Lab - Politecnico di Milano
+- Nicolò Bonettini
+- Edoardo Daniele Cannas
+- Sara Mandelli
+- Luca Bondi
+- Paolo Bestagini

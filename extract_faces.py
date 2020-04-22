@@ -1,9 +1,15 @@
 """
-Prepare faces
+Extract faces
 
-Author: Luca Bondi (luca.bondi@polimi.it)
-Author: Edoardo Cannas (edoardodaniele.cannas@polimi.it)
+Video Face Manipulation Detection Through Ensemble of CNNs
 
+Image and Sound Processing Lab - Politecnico di Milano
+
+Nicolò Bonettini
+Edoardo Daniele Cannas
+Sara Mandelli
+Luca Bondi
+Paolo Bestagini
 """
 import argparse
 import sys
