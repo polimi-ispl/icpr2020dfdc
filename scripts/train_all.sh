@@ -154,7 +154,7 @@ python train_binclass.py \
 --seed 41 \
 --attention \
 --device $DEVICE \
---init /nas/public/exchange/icpr2020/weights/triplet/net-Xception_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth
+--init weights/triplet/net-Xception_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth
 
 
 echo ""
@@ -191,7 +191,7 @@ python train_binclass.py \
 --seed 41 \
 --attention \
 --device $DEVICE \
---init /nas/public/exchange/icpr2020/weights/triplet/net-Xception_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth
+--init weights/triplet/net-Xception_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth
 
 
 echo ""
@@ -267,7 +267,7 @@ python train_binclass.py \
 --seed 41 \
 --attention \
 --device $DEVICE \
---init /nas/public/exchange/icpr2020/weights/triplet/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth
+--init weights/triplet/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth
 
 
 echo ""
@@ -304,7 +304,7 @@ python train_binclass.py \
 --seed 41 \
 --attention \
 --device $DEVICE \
---init /nas/public/exchange/icpr2020/weights/triplet/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth
+--init weights/triplet/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth
 
 
 echo ""
@@ -363,7 +363,7 @@ python train_binclass.py \
 --maxiter 5000 \
 --seed 41 \
 --attention \
---init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
+--init weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
 --suffix finetuning \
 --device $DEVICE
 
@@ -385,7 +385,7 @@ python train_binclass.py \
 --maxiter 5000 \
 --seed 41 \
 --attention \
---init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
+--init weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
 --suffix finetuning \
 --device $DEVICE
 
@@ -406,7 +406,7 @@ python train_binclass.py \
 --maxiter 5000 \
 --seed 41 \
 --attention \
---init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
+--init weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
 --suffix finetuning \
 --device $DEVICE
 
@@ -428,7 +428,7 @@ python train_binclass.py \
 --maxiter 5000 \
 --seed 41 \
 --attention \
---init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
+--init weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
 --suffix finetuning \
 --device $DEVICE
 
@@ -488,7 +488,7 @@ python train_binclass.py \
 --maxiter 5000 \
 --seed 41 \
 --attention \
---init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
+--init weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
 --suffix finetuning \
 --device $DEVICE
 
@@ -510,7 +510,7 @@ python train_binclass.py \
 --maxiter 5000 \
 --seed 41 \
 --attention \
---init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
+--init weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
 --suffix finetuning \
 --device $DEVICE
 
@@ -531,7 +531,7 @@ python train_binclass.py \
 --maxiter 5000 \
 --seed 41 \
 --attention \
---init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
+--init weights/binclass/net-EfficientNetB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth \
 --suffix finetuning \
 --device $DEVICE
 
@@ -553,7 +553,7 @@ python train_binclass.py \
 --maxiter 5000 \
 --seed 41 \
 --attention \
---init /nas/public/exchange/icpr2020/weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
+--init weights/binclass/net-EfficientNetB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth \
 --suffix finetuning \
 --device $DEVICE
 
@@ -591,7 +591,7 @@ python train_binclass.py \
 --seed 41 \
 --attention \
 --device $DEVICE \
---init /nas/public/exchange/icpr2020/weights/triplet/net-EfficientNetAutoAttB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth
+--init weights/triplet/net-EfficientNetAutoAttB4_traindb-ff-c23-720-140-140_face-scale_size-224_seed-41/bestval.pth
 
 
 echo ""
@@ -628,4 +628,4 @@ python train_binclass.py \
 --seed 41 \
 --attention \
 --device $DEVICE \
---init /nas/public/exchange/icpr2020/weights/triplet/net-EfficientNetAutoAttB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth
+--init weights/triplet/net-EfficientNetAutoAttB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth

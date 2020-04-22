@@ -62,9 +62,9 @@ def main():
     parser.add_argument('--attention', action='store_true',
                         help='Enable Tensorboard log of attention masks')
     parser.add_argument('--log_dir', type=str, help='Directory for saving the training logs',
-                        default='/nas/public/exchange/icpr2020/runs/binclass/')
+                        default='runs/binclass/')
     parser.add_argument('--models_dir', type=str, help='Directory for saving the models weights',
-                        default='/nas/public/exchange/icpr2020/weights/binclass/')
+                        default='weights/binclass/')
 
     args = parser.parse_args()
 

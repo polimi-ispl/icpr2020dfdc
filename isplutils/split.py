@@ -16,11 +16,11 @@ available_datasets = [
 
 def load_df(dataset: str) -> (pd.DataFrame, str):
     if dataset.startswith('dfdc'):
-        df = pd.read_pickle('/nas/public/exchange/icpr2020/dfdc_faces.pkl')
-        root = '/nas/public/exchange/icpr2020/facecache/dfdc/'
+        df = pd.read_pickle('data/dfdc_faces.pkl')
+        root = 'data/facecache/dfdc/'
     elif dataset.startswith('ff-'):
-        df = pd.read_pickle('/nas/public/exchange/icpr2020/ffpp_faces.pkl')
-        root = '/nas/public/exchange/icpr2020/facecache/ffpp/'
+        df = pd.read_pickle('data/ffpp_faces.pkl')
+        root = 'data/facecache/ffpp/'
     else:
         raise NotImplementedError('Unknown dataset: {}'.format(dataset))
     return df, root

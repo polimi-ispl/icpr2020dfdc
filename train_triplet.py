@@ -61,9 +61,9 @@ def main():
                         default=5000)
 
     parser.add_argument('--log_dir', type=str, help='Directory for saving the training logs',
-                        default='/nas/public/exchange/icpr2020/runs/triplet/')
+                        default='runs/triplet/')
     parser.add_argument('--models_dir', type=str, help='Directory for saving the models weights',
-                        default='/nas/public/exchange/icpr2020/weights/triplet/')
+                        default='weights/triplet/')
 
     args = parser.parse_args()
 
