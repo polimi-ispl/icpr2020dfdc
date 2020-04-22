@@ -31,8 +31,3 @@ class EfficientNetB4(TripletNet):
 class EfficientNetAutoAttB4(TripletNet):
     def __init__(self):
         super(EfficientNetAutoAttB4, self).__init__(feat_ext=fornet.EfficientNetAutoAttB4)
-
-
-class Xception(TripletNet):
-    def __init__(self):
-        super(Xception, self).__init__(feat_ext=fornet.Xception)

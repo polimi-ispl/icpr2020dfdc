@@ -159,27 +159,6 @@ class EfficientNetAutoAttB4(EfficientNetGenAutoAtt):
     def __init__(self):
         super(EfficientNetAutoAttB4, self).__init__(model='efficientnet-b4', width=0)
 
-
-class EfficientNetAutoAttB4a(EfficientNetGenAutoAtt):
-    def __init__(self):
-        super(EfficientNetAutoAttB4a, self).__init__(model='efficientnet-b4', width=1)
-
-
-"""
-Attention-only tuning
-"""
-
-
-class EfficientNetAutoAttB4AT(EfficientNetAutoAttB4):
-    def get_trainable_parameters(self):
-        return self.efficientnet.attconv.parameters()
-
-
-class EfficientNetAutoAttB4aAT(EfficientNetAutoAttB4a):
-    def get_trainable_parameters(self):
-        return self.efficientnet.attconv.parameters()
-
-
 """
 Xception
 """
