@@ -1,6 +1,6 @@
-import os
 import cv2
 import numpy as np
+
 
 class VideoReader:
     """Helper class for reading one or more frames from a video file."""
@@ -38,7 +38,7 @@ class VideoReader:
         if frame_count <= 0: return None
 
         frame_idxs = np.linspace(0, frame_count - 1, num_frames, endpoint=True, dtype=np.int)
-        frame_idxs = np.unique(frame_idxs) #Avoid repeating frame idxs otherwise it breaks reading
+        frame_idxs = np.unique(frame_idxs)  # Avoid repeating frame idxs otherwise it breaks reading
         if jitter > 0:
             np.random.seed(seed)
             jitter_offsets = np.random.randint(-jitter, jitter, len(frame_idxs))
@@ -127,7 +127,7 @@ class VideoReader:
         except:
             if self.verbose:
                 print("Exception while reading movie %s" % path)
-            return None    
+            return None
 
     def read_middle_frame(self, path):
         """Reads the frame from the middle of the video."""
@@ -159,7 +159,7 @@ class VideoReader:
 
     def _read_frame_at_index(self, path, capture, frame_idx):
         capture.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
-        ret, frame = capture.read()    
+        ret, frame = capture.read()
         if not ret or frame is None:
             if self.verbose:
                 print("Error retrieving frame %d from movie %s" % (frame_idx, path))
@@ -167,7 +167,7 @@ class VideoReader:
         else:
             frame = self._postprocess_frame(frame)
             return np.expand_dims(frame, axis=0), [frame_idx]
-    
+
     def _postprocess_frame(self, frame):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -204,8 +204,8 @@ class VideoReaderIspl(VideoReader):
         frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
         if frame_count <= 0: return None
         video_rate = capture.get(cv2.CAP_PROP_FPS)
-        hop = 1 if fps == -1 else max(video_rate//fps, 1)
-        end_pts = frame_count if num_frames == -1 else num_frames*hop
+        hop = 1 if fps == -1 else max(video_rate // fps, 1)
+        end_pts = frame_count if num_frames == -1 else num_frames * hop
         frame_idxs = np.arange(0, end_pts - 1, hop, endpoint=True, dtype=np.int)
 
         result = self._read_frames_at_indices(path, capture, frame_idxs)

@@ -159,6 +159,7 @@ class EfficientNetAutoAttB4(EfficientNetGenAutoAtt):
     def __init__(self):
         super(EfficientNetAutoAttB4, self).__init__(model='efficientnet-b4', width=0)
 
+
 """
 Xception
 """

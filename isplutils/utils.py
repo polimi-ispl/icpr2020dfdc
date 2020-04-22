@@ -3,14 +3,14 @@ from typing import Iterable, List
 
 import albumentations as A
 import cv2
+import numpy as np
+import scipy
 import torch
 from PIL import Image
 from albumentations.pytorch import ToTensorV2
 from matplotlib import pyplot as plt
 from torch import nn as nn
 from torchvision import transforms
-import numpy as np
-import scipy
 
 
 def extract_meta_av(path: str) -> (int, int, int):
@@ -32,6 +32,7 @@ def extract_meta_av(path: str) -> (int, int, int):
         print('Error while processing file: {}'.format(path))
         print(e)
         return 0, 0, 0
+
 
 def adapt_bb(frame_height: int, frame_width: int, bb_height: int, bb_width: int, left: int, top: int, right: int,
              bottom: int) -> (
