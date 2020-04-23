@@ -3,85 +3,6 @@ DEVICE=0
 
 echo ""
 echo "-------------------------------------------------"
-echo "| Train Xception on FFc23  (variable fpv)        |"
-echo "-------------------------------------------------"
-python train_binclass.py \
---net Xception \
---traindb ff-c23-720-140-140-5fpv \
---valdb ff-c23-720-140-140 \
---face scale \
---size 224 \
---batch 32 \
---lr 1e-5 \
---valint 500 \
---patience 10 \
---maxiter 30000 \
---seed 41 \
---attention \
---device $DEVICE
-
-python train_binclass.py \
---net Xception \
---traindb ff-c23-720-140-140-10fpv \
---valdb ff-c23-720-140-140 \
---face scale \
---size 224 \
---batch 32 \
---lr 1e-5 \
---valint 500 \
---patience 10 \
---maxiter 30000 \
---seed 41 \
---attention \
---device $DEVICE
-
-python train_binclass.py \
---net Xception \
---traindb ff-c23-720-140-140-15fpv \
---valdb ff-c23-720-140-140 \
---face scale \
---size 224 \
---batch 32 \
---lr 1e-5 \
---valint 500 \
---patience 10 \
---maxiter 30000 \
---seed 41 \
---attention \
---device $DEVICE
-
-python train_binclass.py \
---net Xception \
---traindb ff-c23-720-140-140-20fpv \
---valdb ff-c23-720-140-140 \
---face scale \
---size 224 \
---batch 32 \
---lr 1e-5 \
---valint 500 \
---patience 10 \
---maxiter 30000 \
---seed 41 \
---attention \
---device $DEVICE
-
-python train_binclass.py \
---net Xception \
---traindb ff-c23-720-140-140-25fpv \
---valdb ff-c23-720-140-140 \
---face scale \
---size 224 \
---batch 32 \
---lr 1e-5 \
---valint 500 \
---patience 10 \
---maxiter 30000 \
---seed 41 \
---attention \
---device $DEVICE
-
-echo ""
-echo "-------------------------------------------------"
 echo "| Train Xception on FFc23                       |"
 echo "-------------------------------------------------"
 python train_binclass.py \
@@ -158,6 +79,7 @@ python train_binclass.py \
 --seed 41 \
 --attention \
 --device $DEVICE
+
 
 echo ""
 echo "-------------------------------------------------"
@@ -388,3 +310,85 @@ python train_binclass.py \
 --attention \
 --device $DEVICE \
 --init weights/triplet/net-EfficientNetAutoAttB4_traindb-dfdc-35-5-10_face-scale_size-224_seed-41/bestval.pth
+
+
+# With the following commands you can use only a subset of the 32 default frames per video. Just append `-Xfpv` to the `traindb` parameter, where X is the number of frames to use.
+
+echo ""
+echo "-------------------------------------------------"
+echo "| Train Xception on FFc23  (variable fpv)        |"
+echo "-------------------------------------------------"
+python train_binclass.py \
+--net Xception \
+--traindb ff-c23-720-140-140-5fpv \
+--valdb ff-c23-720-140-140 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 500 \
+--patience 10 \
+--maxiter 30000 \
+--seed 41 \
+--attention \
+--device $DEVICE
+
+python train_binclass.py \
+--net Xception \
+--traindb ff-c23-720-140-140-10fpv \
+--valdb ff-c23-720-140-140 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 500 \
+--patience 10 \
+--maxiter 30000 \
+--seed 41 \
+--attention \
+--device $DEVICE
+
+python train_binclass.py \
+--net Xception \
+--traindb ff-c23-720-140-140-15fpv \
+--valdb ff-c23-720-140-140 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 500 \
+--patience 10 \
+--maxiter 30000 \
+--seed 41 \
+--attention \
+--device $DEVICE
+
+python train_binclass.py \
+--net Xception \
+--traindb ff-c23-720-140-140-20fpv \
+--valdb ff-c23-720-140-140 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 500 \
+--patience 10 \
+--maxiter 30000 \
+--seed 41 \
+--attention \
+--device $DEVICE
+
+python train_binclass.py \
+--net Xception \
+--traindb ff-c23-720-140-140-25fpv \
+--valdb ff-c23-720-140-140 \
+--face scale \
+--size 224 \
+--batch 32 \
+--lr 1e-5 \
+--valint 500 \
+--patience 10 \
+--maxiter 30000 \
+--seed 41 \
+--attention \
+--device $DEVICE
