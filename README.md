@@ -1,6 +1,6 @@
 # Video Face Manipulation Detection Through Ensemble of CNNs
 
-This is the official repository of *Video Face Manipulation Detection Through Ensemble of CNNs*, submitted to ICPR2020 and currently available on [arXiv](https://arxiv.org/abs/2004.07676).
+This is the official repository of *Video Face Manipulation Detection Through Ensemble of CNNs*, submitted to [ICPR2020](https://www.micc.unifi.it/icpr2020/) and currently available on [arXiv](https://arxiv.org/abs/2004.07676).
 
 
 ## Getting started
