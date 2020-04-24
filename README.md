@@ -32,8 +32,14 @@ Please refer to the comments into the script for hints on their usage.
 ### Test 
 In [test_all.sh](scripts/test_all.sh) you can find a comprehensive list of all the commands for testing the models presented in the paper. 
 
+#### Pretrained weights
+We also provide pretrained weights for all the architectures presented in the paper. 
+Please refer to this [Dropbox link](https://www.dropbox.com/sh/cesamx5ytd5j08c/AADG_eEmhskliMaT0Gbk-yHDa?dl=0).
+Each directory is named `$NETWORK_$DATASET` where `$NETWORK` is the architecture name and `$DATASET` is the training dataset.
+In each directory, you can find `bestval.pth` which are the best network weights according to the validation set.
 
-Additionally, you can find notebooks for results computations  in the [notebook](notebook) folder.
+
+Additionally, you can find notebooks for results computations in the [notebook](notebook) folder.
 
 ## Datasets
 - [Facebook's DeepFake Detection Challenge (DFDC) train dataset](https://www.kaggle.com/c/deepfake-detection-challenge/data)
