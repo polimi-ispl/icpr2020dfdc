@@ -18,7 +18,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from isplutils.utils import extract_meta_av
+from isplutils.utils import extract_meta_av, extract_meta_cv
 
 
 def main():
@@ -33,6 +33,9 @@ def main():
     ## Parameters parsing
     source_dir: Path = args.source
     videodataset_path: Path = args.videodataset
+
+    # Create ouput folder (if doesn't exist)
+    videodataset_path.parent.mkdir(parents=True, exist_ok=True)
 
     ## DataFrame
     if videodataset_path.exists():
@@ -53,7 +56,7 @@ def main():
 
         # Fix for videos that av cannot decode properly
         for idx, record in df_videos[df_videos['frames'] == 0].iterrows():
-            meta = extract_meta_av(str(source_dir.joinpath(record['path'])))
+            meta = extract_meta_cv(str(source_dir.joinpath(record['path'])))
             df_videos.loc[idx, ['height', 'width', 'frames']] = meta
 
         df_videos['class'] = df_videos['path'].map(lambda x: x.parts[0]).astype('category')
