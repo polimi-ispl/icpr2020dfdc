@@ -11,7 +11,7 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Index FF dataset                              |"
 echo "-------------------------------------------------"
-python index_dfdc.py
+python index_ffpp.py
 
 
 echo ""
