@@ -1,7 +1,7 @@
 # Video Face Manipulation Detection Through Ensemble of CNNs
 ![](assets/faces_attention.png)
 
-This is the official repository of *Video Face Manipulation Detection Through Ensemble of CNNs*,
+This is the official repository of **Video Face Manipulation Detection Through Ensemble of CNNs**,
 submitted to [ICPR2020](https://www.micc.unifi.it/icpr2020/) and currently available on [arXiv](https://arxiv.org/abs/2004.07676).
 
 We participate as **ISPL** team on [Kaggle Deepfake Detection Challenge](https://www.kaggle.com/c/deepfake-detection-challenge/).
