@@ -24,7 +24,7 @@ from isplutils.utils import extract_meta_av
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--source', type=Path, help='Source dir', default='dataset/dfdc_train_all/original')
+    parser.add_argument('--source', type=Path, help='Source dir', required=True)
     parser.add_argument('--videodataset', type=Path, default='data/dfdc_videos.pkl',
                         help='Path to save the videos DataFrame')
     parser.add_argument('--batch', type=int, help='Batch size', default=64)
@@ -42,6 +42,9 @@ def main():
         df_videos = pd.read_pickle(videodataset_path)
     else:
         print('Creating video DataFrame')
+
+        # Create ouptut folder
+        videodataset_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Index
         df_train_list = list()

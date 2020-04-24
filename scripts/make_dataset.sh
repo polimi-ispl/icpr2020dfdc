@@ -1,48 +1,52 @@
 #!/usr/bin/env bash
-DEVICE=0
 
 echo ""
 echo "-------------------------------------------------"
 echo "| Index DFDC dataset                            |"
 echo "-------------------------------------------------"
-python index_dfdc.py
+# put your dfdc source directory path and uncomment the following line
+# DFDC_SRC=/your/dfdc/source/directory
+python index_dfdc.py --source $DFDC_SRC
 
 echo ""
 echo "-------------------------------------------------"
 echo "| Index FF dataset                              |"
 echo "-------------------------------------------------"
-python index_ffpp.py
+# put your ffpp source directory path and uncomment the following line
+# FFPP_SRC=/your/ffpp/source/directory
+python index_ffpp.py --source $FFPP_SRC
 
 
 echo ""
 echo "-------------------------------------------------"
 echo "| Extract faces from DFDC                        |"
 echo "-------------------------------------------------"
-python extrac_faces.py \
---source dataset/dfdc_train_all/ \
---facesfolder data/facecache/dfdc_train_all/ \
---videodf data/dfdc_videos.pkl \
---facesdf data/dfdc_faces.pkl \
---checkpoint tmp/dfdc_prep/
-
-echo ""
-echo "-------------------------------------------------"
-echo "| Extract faces from DFDC                        |"
-echo "-------------------------------------------------"
+# put your source and destination directories and uncomment the following lines
+# DFDC_SRC=/your/dfdc/source/folder
+# VIDEODF_SRC=/previously/computed/index/path
+# FACES_DST=/faces/output/directory
+# FACESDF_DST=/faces/df/output/directory
+# CHECKPOINT_DST=/tmp/per/video/outputs
 python extract_faces.py \
---source dataset/dfdc_train_all/ \
---facesfolder data/facecache/dfdc_train_all/ \
---videodf data/dfdc_videos.pkl \
---facesdf data/dfdc_faces.pkl \
---checkpoint tmp/dfdc_prep/
+--source $DFDC_SRC \
+--videodf $VIDEODF_SRC \
+--facesfolder $FACES_DST \
+--facesdf $FACESDF_DST \
+--checkpoint $CHECKPOINT_DST
 
 echo ""
 echo "-------------------------------------------------"
 echo "| Extract faces from FF                         |"
 echo "-------------------------------------------------"
+# put your source and destination directories and uncomment the following lines
+# FFPP_SRC=/your/dfdc/source/folder
+# VIDEODF_SRC=/previously/computed/index/path
+# FACES_DST=/faces/output/directory
+# FACESDF_DST=/faces/df/output/directory
+# CHECKPOINT_DST=/tmp/per/video/outputs
 python extract_faces.py \
---source dataset/ffpp/ \
---facesfolder data/facecache/ffpp/ \
---videodf data/ffpp_videos.pkl \
---facesdf data/ffpp_faces.pkl \
---checkpoint tmp/ffpp_prep/
+--source $FFPP_SRC \
+--videodf $VIDEODF_SRC \
+--facesfolder $FACES_DST \
+--facesdf $FACESDF_DST \
+--checkpoint $CHECKPOINT_DST
