@@ -29,6 +29,7 @@ from tqdm import tqdm
 import blazeface
 from blazeface import BlazeFace, VideoReader, FaceExtractor
 from isplutils.utils import adapt_bb
+import os
 
 
 def main():
@@ -51,7 +52,6 @@ def main():
     parser.add_argument('--num', type=int, help='Number of videos to process', default=0)
     parser.add_argument('--lazycheck', action='store_true', help='Lazy check of existing video indexes')
     parser.add_argument('--deepcheck', action='store_true', help='Try to open every image')
-    parser.add_argument('--bestonly', action='store_true', help='Bestface only')
 
     args = parser.parse_args()
 
@@ -59,11 +59,9 @@ def main():
     device: torch.device = args.device
     source_dir: Path = args.source
     facedestination_dir: Path = args.facesfolder
-    framedestination_dir: Path = args.framesfolder
     frames_per_video: int = args.fpv
     videodataset_path: Path = args.videodf
     facesdataset_path: Path = args.facesdf
-    framesdataset_path: Path = args.framesdf
     collateonly: bool = args.collateonly
     batch_size: int = args.batch
     threads: int = args.threads
@@ -73,7 +71,6 @@ def main():
     deepcheck: bool = args.deepcheck
     checkpoint_folder: Path = args.checkpoint
     index_enable: bool = args.noindex
-    bestonly: bool = args.bestonly
 
     ## Parameters
     face_size = 512
@@ -104,7 +101,6 @@ def main():
                 tosave_list = list(p.map(partial(process_video,
                                                  source_dir=source_dir,
                                                  facedestination_dir=facedestination_dir,
-                                                 framedestination_dir=framedestination_dir,
                                                  checkpoint_folder=checkpoint_folder,
                                                  face_size=face_size,
                                                  face_extractor=face_extractor,
@@ -115,12 +111,12 @@ def main():
                 for tosave in tosave_list:
                     if tosave is not None:
                         if len(tosave[2]):
-                            list(p.map(save_jpg, tosave[4]))
+                            list(p.map(save_jpg, tosave[2]))
                         tosave[1].parent.mkdir(parents=True, exist_ok=True)
                         tosave[0].to_pickle(str(tosave[1]))
 
-    if offset > 0 or num > 0:
-        return
+    # if offset > 0 or num > 0:
+    #     return
 
     if index_enable:
         # Collect checkpoints
@@ -147,6 +143,16 @@ def main():
         print('Saving videos DataFrame to {}'.format(videodataset_path))
         df_videos.to_pickle(str(videodataset_path))
 
+        if offset is not None:
+            if num is not None:
+                facesdataset_path = facesdataset_path.parent.joinpath(facesdataset_path.parts[-1]+'_from_video_{}_to_video_{}.pkl'.format(offset, num))
+            else:
+                facesdataset_path = facesdataset_path.parent.joinpath(facesdataset_path.parts[-1] + '_from_video_{}.pkl'.format(offset))
+        elif num is not None:
+            facesdataset_path = facesdataset_path.parent.joinpath(facesdataset_path.parts[-1] + '_from_video_{}_to_video_{}.pkl'.format(0, num))
+
+        # Creates directory (if doesn't exist)
+        facesdataset_path.parent.mkdir(parents=True, exist_ok=True)
         print('Saving faces DataFrame to {}'.format(facesdataset_path))
         df_faces = pd.concat(faces_dataset, axis=0, )
         df_faces['video'] = df_faces['video'].astype('category')
@@ -174,7 +180,6 @@ def save_jpg(args: Tuple[Image.Image, Path or str]):
 def process_video(item: Tuple[pd.Index, pd.Series],
                   source_dir: Path,
                   facedestination_dir: Path,
-                  framedestination_dir: Path,
                   checkpoint_folder: Path,
                   face_size: int,
                   face_extractor: FaceExtractor,
@@ -185,7 +190,6 @@ def process_video(item: Tuple[pd.Index, pd.Series],
 
     # Checkpoint
     video_faces_checkpoint_path = checkpoint_folder.joinpath(record['path']).with_suffix('.faces.pkl')
-    video_frames_checkpoint_path = checkpoint_folder.joinpath(record['path']).with_suffix('.frames.pkl')
 
     if not lazycheck:
         if video_faces_checkpoint_path.exists():
@@ -204,28 +208,11 @@ def process_video(item: Tuple[pd.Index, pd.Series],
                 print(e)
                 video_faces_checkpoint_path.unlink()
 
-        if video_frames_checkpoint_path.exists():
-            try:
-                df_video_frames = pd.read_pickle(str(video_frames_checkpoint_path))
-                for _, r in df_video_frames.iterrows():
-                    frame_path = framedestination_dir.joinpath(r.name)
-                    if deepcheck:
-                        img = Image.open(frame_path)
-                        img_arr = np.asarray(img)
-                        assert (img_arr.ndim == 3)
-                        assert (np.prod(img_arr.shape) > 0)
-                    assert (frame_path.exists())
-            except Exception as e:
-                print('Error while checking: {}'.format(video_faces_checkpoint_path))
-                print(e)
-                video_frames_checkpoint_path.unlink()
-
-    if not (video_faces_checkpoint_path.exists() and video_frames_checkpoint_path.exists()):
+    if not (video_faces_checkpoint_path.exists()):
 
         try:
 
             video_face_dict_list = []
-            video_frame_dict_list = []
 
             # Load faces
             frames = face_extractor.process_video(source_dir.joinpath(record['path']))
@@ -242,25 +229,6 @@ def process_video(item: Tuple[pd.Index, pd.Series],
             for frame_idx, frame in enumerate(frames):
                 if len(frames[frame_idx]['detections']):
                     fullframe = Image.fromarray(frames[frame_idx]['frame'])
-
-                    frame_path = framedestination_dir.joinpath(record['path'], 'fr{:03d}.jpg'.format(
-                        frames[frame_idx]['frame_idx']))
-                    frame_dict = {'framepath': str(frame_path.relative_to(framedestination_dir)),
-                                  'video': idx, 'label': record['label']}
-
-                    for field_idx, key in enumerate(blazeface.BlazeFace.detection_keys):
-                        frame_dict[key] = frames[frame_idx]['detections'][0][
-                            field_idx]  # take only the best face found (faces are orderd by score)
-
-                    frame_dict['left'] = frame_dict.pop('xmin')
-                    frame_dict['top'] = frame_dict.pop('ymin')
-                    frame_dict['right'] = frame_dict.pop('xmax')
-                    frame_dict['bottom'] = frame_dict.pop('ymax')
-
-                    frame_path.parent.mkdir(parents=True, exist_ok=True)
-                    images_to_save.append((fullframe, frame_path))
-
-                    video_frame_dict_list.append(frame_dict)
 
                     # Preserve the only found face even if not a good one, otherwise preserve only clusters > -1
                     subjects = np.unique(frames[frame_idx]['subjects'])
