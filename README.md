@@ -44,7 +44,7 @@ Additionally, you can find notebooks for results computations  in the [notebook]
 - [Xception PyTorch](https://github.com/tstandley/Xception-PyTorch)
 
 ## Credits
-Image and Sound Processing Lab - Politecnico di Milano
+[Image and Sound Processing Lab - Politecnico di Milano](http://ispl.deib.polimi.it/)
 - Nicolò Bonettini
 - Edoardo Daniele Cannas
 - Sara Mandelli
