@@ -5,7 +5,7 @@ This is the official repository of **Video Face Manipulation Detection Through E
 submitted to [ICPR2020](https://www.micc.unifi.it/icpr2020/) and currently available on [arXiv](https://arxiv.org/abs/2004.07676).
 
 We participate as **ISPL** team on [Kaggle Deepfake Detection Challenge](https://www.kaggle.com/c/deepfake-detection-challenge/).
-With this implementation, we reached the 43rd position over 2116 teams (*top 2%*) on the [private leaderboard](https://www.kaggle.com/c/deepfake-detection-challenge/leaderboard).
+With this implementation, we reached the 43rd position over 2116 teams (**top 2%**) on the [private leaderboard](https://www.kaggle.com/c/deepfake-detection-challenge/leaderboard).
 
 This repository is currently under mantainance, feel free to notify us any lack by opening an issue.
 ## Getting started
