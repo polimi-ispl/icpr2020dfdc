@@ -115,9 +115,6 @@ def main():
                         tosave[1].parent.mkdir(parents=True, exist_ok=True)
                         tosave[0].to_pickle(str(tosave[1]))
 
-    # if offset > 0 or num > 0:
-    #     return
-
     if index_enable:
         # Collect checkpoints
         df_videos['nfaces'] = np.zeros(len(df_videos), np.uint8)
@@ -145,11 +142,11 @@ def main():
 
         if offset is not None:
             if num is not None:
-                facesdataset_path = facesdataset_path.parent.joinpath(facesdataset_path.parts[-1]+'_from_video_{}_to_video_{}.pkl'.format(offset, num))
+                facesdataset_path = facesdataset_path.parent.joinpath(str(facesdataset_path.parts[-1]).split('.')[0]+'_from_video_{}_to_video_{}.pkl'.format(offset, num+offset))
             else:
-                facesdataset_path = facesdataset_path.parent.joinpath(facesdataset_path.parts[-1] + '_from_video_{}.pkl'.format(offset))
+                facesdataset_path = facesdataset_path.parent.joinpath(str(facesdataset_path.parts[-1]).split('.')[0] + '_from_video_{}.pkl'.format(offset))
         elif num is not None:
-            facesdataset_path = facesdataset_path.parent.joinpath(facesdataset_path.parts[-1] + '_from_video_{}_to_video_{}.pkl'.format(0, num))
+            facesdataset_path = facesdataset_path.parent.joinpath(str(facesdataset_path.parts[-1]).split('.')[0] + '_from_video_{}_to_video_{}.pkl'.format(0, num))
 
         # Creates directory (if doesn't exist)
         facesdataset_path.parent.mkdir(parents=True, exist_ok=True)
