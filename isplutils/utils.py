@@ -45,6 +45,24 @@ def extract_meta_av(path: str) -> (int, int, int):
         return 0, 0, 0
 
 
+def extract_meta_cv(path: str) -> (int, int, int):
+    """
+    Extract video height, width and number of frames to index the files
+    :param path:
+    :return:
+    """
+    try:
+        vid = cv2.VideoCapture(path)
+        num_frames = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
+        height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        width = int(vid.get(cv2.CAP_PROP_FRAME_WIDTH))
+        return height, width, num_frames
+    except Exception as e:
+        print('Error while reading file: {}'.format(path))
+        print(e)
+        return 0, 0, 0
+
+
 def adapt_bb(frame_height: int, frame_width: int, bb_height: int, bb_width: int, left: int, top: int, right: int,
              bottom: int) -> (
         int, int, int, int):
