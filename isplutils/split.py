@@ -24,13 +24,13 @@ available_datasets = [
 ]
 
 
-def load_df(dataset: str) -> (pd.DataFrame, str):
+def load_df(dfdc_df_path: str, ffpp_df_path: str, dfdc_faces_dir: str, ffpp_faces_dir: str, dataset: str) -> (pd.DataFrame, str):
     if dataset.startswith('dfdc'):
-        df = pd.read_pickle('data/dfdc_faces.pkl')
-        root = 'data/facecache/dfdc/'
+        df = pd.read_pickle(dfdc_df_path)
+        root = dfdc_faces_dir
     elif dataset.startswith('ff-'):
-        df = pd.read_pickle('data/ffpp_faces.pkl')
-        root = 'data/facecache/ffpp/'
+        df = pd.read_pickle(ffpp_df_path)
+        root = ffpp_faces_dir
     else:
         raise NotImplementedError('Unknown dataset: {}'.format(dataset))
     return df, root
@@ -81,13 +81,20 @@ def get_split_df(df: pd.DataFrame, dataset: str, split: str) -> pd.DataFrame:
     return split_df
 
 
-def make_splits(dbs: Dict[str, List[str]]) -> Dict[str, Dict[str, Tuple[pd.DataFrame, str]]]:
+def make_splits(dfdc_df: str, ffpp_df: str, dfdc_dir: str, ffpp_dir: str, dbs: Dict[str, List[str]]) -> Dict[str, Dict[str, Tuple[pd.DataFrame, str]]]:
     """
     Make split and return Dataframe and root
-    :param dbs: {split_name:[split_dataset1,split_dataset2,...]}
+    :param
+    dfdc_df: str, path to the DataFrame containing info on the faces extracted from the DFDC dataset with extract_faces.py
+    ffpp_df: str, path to the DataFrame containing info on the faces extracted from the FF++ dataset with extract_faces.py
+    dfdc_dir: str, path to the directory containing the faces extracted from the DFDC dataset with extract_faces.py
+    ffpp_dir: str, path to the directory containing the faces extracted from the FF++ dataset with extract_faces.py
+    dbs: {split_name:[split_dataset1,split_dataset2,...]}
                 Example:
                 {'train':['dfdc-35-5-15',],'val':['dfdc-35-5-15',]}
-    :return:
+    :return: split_dict: dictonary containing {split_name: ['train', 'val'], splitdb: List(pandas.DataFrame, str)}
+                Example:
+                {'train, 'dfdc-35-5-15': (dfdc_train_df, 'path/to/dir/of/DFDC/faces')}
     """
     split_dict = {}
     full_dfs = {}
@@ -95,7 +102,7 @@ def make_splits(dbs: Dict[str, List[str]]) -> Dict[str, Dict[str, Tuple[pd.DataF
         split_dict[split_name] = dict()
         for split_db in split_dbs:
             if split_db not in full_dfs:
-                full_dfs[split_db] = load_df(split_db)
+                full_dfs[split_db] = load_df(dfdc_df, ffpp_df, dfdc_dir, ffpp_dir, split_db)
             full_df, root = full_dfs[split_db]
             split_df = get_split_df(df=full_df, dataset=split_db, split=split_name)
             split_dict[split_name][split_db] = (split_df, root)
