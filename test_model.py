@@ -37,6 +37,18 @@ def main():
                         required=True)
     parser.add_argument('--testsplits', type=str, help='Test split', nargs='+', default=['val', 'test'],
                         choices=['train', 'val', 'test'])
+    parser.add_argument('--dfdc_faces_df_path', type=str, action='store',
+                        help='Path to the Pandas Dataframe obtained from extract_faces.py on the DFDC dataset. '
+                             'Required for training/validating on the DFDC dataset.')
+    parser.add_argument('--dfdc_faces_dir', type=str, action='store',
+                        help='Path to the directory containing the faces extracted from the DFDC dataset. '
+                             'Required for training/validating on the DFDC dataset.')
+    parser.add_argument('--ffpp_faces_df_path', type=str, action='store',
+                        help='Path to the Pandas Dataframe obtained from extract_faces.py on the FF++ dataset. '
+                             'Required for training/validating on the FF++ dataset.')
+    parser.add_argument('--ffpp_faces_dir', type=str, action='store',
+                        help='Path to the directory containing the faces extracted from the FF++ dataset. '
+                             'Required for training/validating on the FF++ dataset.')
 
     # Alternative 1: Specify training params
     parser.add_argument('--net', type=str, help='Net model class')
@@ -90,6 +102,10 @@ def main():
     seed: int = args.seed
     test_sets = args.testsets
     test_splits = args.testsplits
+    dfdc_df_path = args.dfdc_faces_df_path
+    ffpp_df_path = args.ffpp_faces_df_path
+    dfdc_faces_dir = args.dfdc_faces_dir
+    ffpp_faces_dir = args.ffpp_faces_dir
 
     if model_path is None:
         if net_name is None:
@@ -137,7 +153,14 @@ def main():
 
     # datasets and dataloaders (from train_binclass.py)
     print('Loading data...')
-    splits = split.make_splits(dbs={'train': test_sets, 'val': test_sets, 'test': test_sets})
+    # Check if paths for DFDC and FF++ extracted faces and DataFrames are provided
+    for dataset in test_sets:
+        if dataset.split('-')[0] == 'dfdc' and (dfdc_df_path is None or dfdc_faces_dir is None):
+            raise RuntimeError('Specify DataFrame and directory for DFDC faces for testing!')
+        elif dataset.split('-')[0] == 'ff' and (ffpp_df_path is None or ffpp_faces_dir is None):
+            raise RuntimeError('Specify DataFrame and directory for FF++ faces for testing!')
+    splits = split.make_splits(dfdc_df=dfdc_df_path, ffpp_df=ffpp_df_path, dfdc_dir=dfdc_faces_dir,
+                               ffpp_dir=ffpp_faces_dir, dbs={'train': test_sets, 'val': test_sets, 'test': test_sets})
     train_dfs = [splits['train'][db][0] for db in splits['train']]
     train_roots = [splits['train'][db][1] for db in splits['train']]
     val_roots = [splits['val'][db][1] for db in splits['val']]
