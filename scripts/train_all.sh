@@ -5,10 +5,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train Xception on FFc23                       |"
 echo "-------------------------------------------------"
+# put your FF++ source directory path for the extracted faces and Dataframe and uncomment the following line
+# FFPP_FACES_DIR=/your/dfdc/faces/directory
+# FFPP_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_binclass.py \
 --net Xception \
 --traindb ff-c23-720-140-140 \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -25,10 +30,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train Xception on DFDC                         |"
 echo "-------------------------------------------------"
+# put your DFDC source directory path for the extracted faces and Dataframe and uncomment the following line
+# DFDC_FACES_DIR=/your/dfdc/faces/directory
+# DFDC_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_binclass.py \
 --net Xception \
 --traindb dfdc-35-5-10 \
 --valdb dfdc-35-5-10 \
+--dfdc_faces_df_path $DFDC_FACES_DF \
+--dfdc_faces_dir $DFDC_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -45,10 +55,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train EfficientNetB4 on FFc23                  |"
 echo "-------------------------------------------------"
+# put your FF++ source directory path for the extracted faces and Dataframe and uncomment the following line
+# FFPP_FACES_DIR=/your/dfdc/faces/directory
+# FFPP_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_binclass.py \
 --net EfficientNetB4 \
 --traindb ff-c23-720-140-140 \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -65,10 +80,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train EfficientNetB4 on DFDC                   |"
 echo "-------------------------------------------------"
+# put your DFDC source directory path for the extracted faces and Dataframe and uncomment the following line
+# DFDC_FACES_DIR=/your/dfdc/faces/directory
+# DFDC_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_binclass.py \
 --net EfficientNetB4 \
 --traindb dfdc-35-5-10 \
 --valdb dfdc-35-5-10 \
+--dfdc_faces_df_path $DFDC_FACES_DF \
+--dfdc_faces_dir $DFDC_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -85,10 +105,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train EfficientNetB4 on FFc23 (triplet)        |"
 echo "-------------------------------------------------"
+# put your FF++ source directory path for the extracted faces and Dataframe and uncomment the following line
+# FFPP_FACES_DIR=/your/dfdc/faces/directory
+# FFPP_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_triplet.py \
 --net EfficientNetB4 \
 --traindb ff-c23-720-140-140 \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 12 \
@@ -105,6 +130,8 @@ python train_binclass.py \
 --net EfficientNetB4ST \
 --traindb ff-c23-720-140-140 \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -122,10 +149,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train EfficientNetB4 on DFDC (triplet)        |"
 echo "-------------------------------------------------"
+# put your DFDC source directory path for the extracted faces and Dataframe and uncomment the following line
+# DFDC_FACES_DIR=/your/dfdc/faces/directory
+# DFDC_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_triplet.py \
 --net EfficientNetB4 \
 --traindb dfdc-35-5-10 \
 --valdb dfdc-35-5-10 \
+--dfdc_faces_df_path $DFDC_FACES_DF \
+--dfdc_faces_dir $DFDC_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 12 \
@@ -142,6 +174,8 @@ python train_binclass.py \
 --net EfficientNetB4ST \
 --traindb dfdc-35-5-10 \
 --valdb dfdc-35-5-10 \
+--dfdc_faces_df_path $DFDC_FACES_DF \
+--dfdc_faces_dir $DFDC_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -159,10 +193,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train EfficientNetAutoAttB4 on FFc23           |"
 echo "-------------------------------------------------"
+# put your FF++ source directory path for the extracted faces and Dataframe and uncomment the following line
+# FFPP_FACES_DIR=/your/dfdc/faces/directory
+# FFPP_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_binclass.py \
 --net EfficientNetAutoAttB4 \
 --traindb ff-c23-720-140-140 \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -179,10 +218,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train EfficientNetAutoAttB4 on DFDC           |"
 echo "-------------------------------------------------"
+# put your DFDC source directory path for the extracted faces and Dataframe and uncomment the following line
+# DFDC_FACES_DIR=/your/dfdc/faces/directory
+# DFDC_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_binclass.py \
 --net EfficientNetAutoAttB4 \
 --traindb dfdc-35-5-10 \
 --valdb dfdc-35-5-10 \
+--dfdc_faces_df_path $DFDC_FACES_DF \
+--dfdc_faces_dir $DFDC_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -198,10 +242,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train EfficientNetAutoAttB4 on FFc23 (tuning) |"
 echo "-------------------------------------------------"
+# put your FF++ source directory path for the extracted faces and Dataframe and uncomment the following line
+# FFPP_FACES_DIR=/your/dfdc/faces/directory
+# FFPP_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_binclass.py \
 --net EfficientNetAutoAttB4 \
 --traindb ff-c23-720-140-140 \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -220,10 +269,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train EfficientNetAutoAttB4 on DFDC  (tuning) |"
 echo "-------------------------------------------------"
+# put your DFDC source directory path for the extracted faces and Dataframe and uncomment the following line
+# DFDC_FACES_DIR=/your/dfdc/faces/directory
+# DFDC_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_binclass.py \
 --net EfficientNetAutoAttB4 \
 --traindb dfdc-35-5-10 \
 --valdb dfdc-35-5-10 \
+--dfdc_faces_df_path $DFDC_FACES_DF \
+--dfdc_faces_dir $DFDC_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -242,10 +296,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train EfficientNetAutoAttB4 on FFc23 (triplet)|"
 echo "-------------------------------------------------"
+# put your FF++ source directory path for the extracted faces and Dataframe and uncomment the following line
+# FFPP_FACES_DIR=/your/dfdc/faces/directory
+# FFPP_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_triplet.py \
 --net EfficientNetAutoAttB4 \
 --traindb ff-c23-720-140-140 \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 12 \
@@ -262,6 +321,8 @@ python train_binclass.py \
 --net EfficientNetAutoAttB4ST \
 --traindb ff-c23-720-140-140 \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -279,10 +340,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train EfficientNetAutoAttB4 on DFDC (triplet) |"
 echo "-------------------------------------------------"
+# put your DFDC source directory path for the extracted faces and Dataframe and uncomment the following line
+# DFDC_FACES_DIR=/your/dfdc/faces/directory
+# DFDC_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_triplet.py \
 --net EfficientNetAutoAttB4 \
 --traindb dfdc-35-5-10 \
 --valdb dfdc-35-5-10 \
+--dfdc_faces_df_path $DFDC_FACES_DF \
+--dfdc_faces_dir $DFDC_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 12 \
@@ -299,6 +365,8 @@ python train_binclass.py \
 --net EfficientNetAutoAttB4ST \
 --traindb dfdc-35-5-10 \
 --valdb dfdc-35-5-10 \
+--dfdc_faces_df_path $DFDC_FACES_DF \
+--dfdc_faces_dir $DFDC_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -318,10 +386,15 @@ echo ""
 echo "-------------------------------------------------"
 echo "| Train Xception on FFc23  (variable fpv)        |"
 echo "-------------------------------------------------"
+# put your FF++ source directory path for the extracted faces and Dataframe and uncomment the following line
+# FFPP_FACES_DIR=/your/dfdc/faces/directory
+# FFPP_FACES_DF=/your/dfdc/faces/dataframe/path
 python train_binclass.py \
 --net Xception \
 --traindb ff-c23-720-140-140-5fpv \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -337,6 +410,8 @@ python train_binclass.py \
 --net Xception \
 --traindb ff-c23-720-140-140-10fpv \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -352,6 +427,8 @@ python train_binclass.py \
 --net Xception \
 --traindb ff-c23-720-140-140-15fpv \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -367,6 +444,8 @@ python train_binclass.py \
 --net Xception \
 --traindb ff-c23-720-140-140-20fpv \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
@@ -382,6 +461,8 @@ python train_binclass.py \
 --net Xception \
 --traindb ff-c23-720-140-140-25fpv \
 --valdb ff-c23-720-140-140 \
+--ffpp_faces_df_path $FFPP_FACES_DF \
+--ffpp_faces_dir $FFPP_FACES_DIR \
 --face scale \
 --size 224 \
 --batch 32 \
