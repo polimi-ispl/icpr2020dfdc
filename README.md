@@ -4,10 +4,10 @@
 This is the official repository of **Video Face Manipulation Detection Through Ensemble of CNNs**,
 submitted to [ICPR2020](https://www.micc.unifi.it/icpr2020/) and currently available on [arXiv](https://arxiv.org/abs/2004.07676).
 
-We participate as **ISPL** team on [Kaggle Deepfake Detection Challenge](https://www.kaggle.com/c/deepfake-detection-challenge/).
-With this implementation, we reached the 43rd position over 2116 teams (**top 2%**) on the [private leaderboard](https://www.kaggle.com/c/deepfake-detection-challenge/leaderboard).
+We participated as **ISPL** team to the [Kaggle Deepfake Detection Challenge](https://www.kaggle.com/c/deepfake-detection-challenge/).
+With this implementation, we reached the 41st position over 2116 teams (**top 2%**) on the [private leaderboard](https://www.kaggle.com/c/deepfake-detection-challenge/leaderboard).
 
-This repository is currently under mantainance, feel free to notify us any lack by opening an issue.
+This repository is currently under maintenance, feel free to notify us about any lack by opening an [issue](https://github.com/polimi-ispl/icpr2020dfdc/issues).
 ## Getting started
 
 ### Prerequisites
@@ -18,7 +18,12 @@ $ conda env create -f environment.yml
 $ conda activate icpr2020
 ```
 
-### Dataset preprocessing
+### Quick run
+If you just want to test the pre-trained models against you own video or image:
+- [Video prediction notebook](https://github.com/polimi-ispl/icpr2020dfdc/tree/master/notebook/Video%20prediction.ipynb)
+- [Image prediction notebook](https://github.com/polimi-ispl/icpr2020dfdc/tree/master/notebook/Image%20prediction.ipynb)
+
+### The whole pipeline
 You need to preprocess dataset in order to index all the samples and extract faces. Just run the script [make_dataset.sh](scripts/make_dataset.sh)
 
 ```bash
