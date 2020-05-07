@@ -12,7 +12,7 @@ from blazeface import BlazeFace
 class FaceExtractor:
     """Wrapper for face extraction workflow."""
 
-    def __init__(self, video_read_fn, facedet: BlazeFace):
+    def __init__(self, video_read_fn = None, facedet: BlazeFace = None):
         """Creates a new FaceExtractor.
 
         Arguments:
@@ -25,16 +25,25 @@ class FaceExtractor:
         self.video_read_fn = video_read_fn
         self.facedet = facedet
 
-    def process_image(self, path: str) -> dict:
+    def process_image(self, path: str = None, img: Image.Image or np.ndarray = None) -> dict:
         """
         Process a single image
         :param path: Path to the image
+        :param img: image
         :return:
         """
 
+        if img is not None and path is not None:
+            raise ValueError('Only one argument between path and img can be specified')
+        if img is None and path is None:
+            raise ValueError('At least one argument between path and img must be specified')
+
         target_size = self.facedet.input_size
 
-        img = np.asarray(Image.open(str(path)))
+        if img is None:
+            img = np.asarray(Image.open(str(path)))
+        else:
+            img = np.asarray(img)
 
         # Split the frames into several tiles. Resize the tiles to 128x128.
         tiles, resize_info = self._tile_frames(np.expand_dims(img, 0), target_size)

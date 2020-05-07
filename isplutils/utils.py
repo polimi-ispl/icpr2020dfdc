@@ -153,21 +153,28 @@ def get_transformer(face_policy: str, patch_size: int, net_normalizer: transform
         # The loader crops the face isotropically then scales to a square of size patch_size_load
         loading_transformations = [
             A.PadIfNeeded(min_height=patch_size, min_width=patch_size,
-                          border_mode=cv2.BORDER_CONSTANT, value=0),
+                          border_mode=cv2.BORDER_CONSTANT, value=0,always_apply=True),
+            A.Resize(height=patch_size,width=patch_size,always_apply=True),
         ]
-        downsample_train_transformations = [
-            A.Downscale(scale_max=0.5, scale_min=0.5, p=0.5),  # replaces scaled dataset
-        ]
+        if train:
+            downsample_train_transformations = [
+                A.Downscale(scale_max=0.5, scale_min=0.5, p=0.5),  # replaces scaled dataset
+            ]
+        else:
+            downsample_train_transformations = []
     elif face_policy == 'tight':
         # The loader crops the face tightly without any scaling
         loading_transformations = [
             A.LongestMaxSize(max_size=patch_size, always_apply=True),
             A.PadIfNeeded(min_height=patch_size, min_width=patch_size,
-                          border_mode=cv2.BORDER_CONSTANT, value=0),
+                          border_mode=cv2.BORDER_CONSTANT, value=0,always_apply=True),
         ]
-        downsample_train_transformations = [
-            A.Downscale(scale_max=0.5, scale_min=0.5, p=0.5),  # replaces scaled dataset
-        ]
+        if train:
+            downsample_train_transformations = [
+                A.Downscale(scale_max=0.5, scale_min=0.5, p=0.5),  # replaces scaled dataset
+            ]
+        else:
+            downsample_train_transformations = []
     else:
         raise ValueError('Unknown value for face_policy: {}'.format(face_policy))
 
