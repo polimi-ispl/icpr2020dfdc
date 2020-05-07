@@ -20,8 +20,8 @@ $ conda activate icpr2020
 
 ### Quick run
 If you just want to test the pre-trained models against you own video or image:
-- [Video prediction notebook](https://github.com/polimi-ispl/icpr2020dfdc/tree/master/notebook/Video%20prediction.ipynb)
-- [Image prediction notebook](https://github.com/polimi-ispl/icpr2020dfdc/tree/master/notebook/Image%20prediction.ipynb)
+- [Video prediction notebook](https://github.com/polimi-ispl/icpr2020dfdc/blob/demo_notebook/notebook/Video%20prediction.ipynb)
+- [Image prediction notebook](https://github.com/polimi-ispl/icpr2020dfdc/blob/demo_notebook/notebook/Image%20prediction.ipynb)
 
 ### The whole pipeline
 You need to preprocess dataset in order to index all the samples and extract faces. Just run the script [make_dataset.sh](scripts/make_dataset.sh)
