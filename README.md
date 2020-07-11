@@ -65,8 +65,8 @@ Additionally, you can find notebooks for results computations in the [notebook](
 
 ## Credits
 [Image and Sound Processing Lab - Politecnico di Milano](http://ispl.deib.polimi.it/)
-- Nicolò Bonettini (nicolo.bonettini@polimi.it)
-- Edoardo Daniele Cannas (edoardodaniele.cannas@polimi.it)
-- Sara Mandelli (sara.mandelli@polimi.it)
-- Luca Bondi (luca.bondi@polimi.it)
-- Paolo Bestagini (paolo.bestagini@polimi.it)
+- Nicolò Bonettini
+- Edoardo Daniele Cannas
+- Sara Mandelli
+- Luca Bondi
+- Paolo Bestagini
