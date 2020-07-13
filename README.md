@@ -2,7 +2,7 @@
 ![](assets/faces_attention.png)
 
 This is the official repository of **Video Face Manipulation Detection Through Ensemble of CNNs**,
-submitted to [ICPR2020](https://www.micc.unifi.it/icpr2020/) and currently available on [arXiv](https://arxiv.org/abs/2004.07676).
+accepted to [ICPR2020](https://www.micc.unifi.it/icpr2020/) and currently available on [arXiv](https://arxiv.org/abs/2004.07676).
 
 We participated as the **ISPL** team in the [Kaggle Deepfake Detection Challenge](https://www.kaggle.com/c/deepfake-detection-challenge/).
 With this implementation, we reached the 41st position over 2116 teams (**top 2%**) on the [private leaderboard](https://www.kaggle.com/c/deepfake-detection-challenge/leaderboard).
