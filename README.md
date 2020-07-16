@@ -56,8 +56,8 @@ In each directory, you can find `bestval.pth` which are the best network weights
 Additionally, you can find notebooks for results computations in the [notebook](notebook) folder.
 
 ## Datasets
-- [Facebook's DeepFake Detection Challenge (DFDC) train dataset](https://www.kaggle.com/c/deepfake-detection-challenge/data)
-- [FaceForensics++](https://github.com/ondyari/FaceForensics/blob/master/dataset/README.md)
+- [Facebook's DeepFake Detection Challenge (DFDC) train dataset](https://www.kaggle.com/c/deepfake-detection-challenge/data) | [arXiv paper](https://arxiv.org/abs/2006.07397)
+- [FaceForensics++](https://github.com/ondyari/FaceForensics/blob/master/dataset/README.md) | [arXiv paper](https://arxiv.org/abs/1901.08971)
 
 ## References
 - [EfficientNet PyTorch](https://github.com/lukemelas/EfficientNet-PyTorch)
