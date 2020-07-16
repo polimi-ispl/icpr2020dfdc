@@ -35,7 +35,7 @@ import os
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, help='Videos root directory', required=True)
-    parser.add_argument('--videodf', type=Path, help='Path to read the videos DataFrame')
+    parser.add_argument('--videodf', type=Path, help='Path to read the videos DataFrame', required=True)
     parser.add_argument('--facesfolder', type=Path, help='Faces output root directory', required=True)
     parser.add_argument('--facesdf', type=Path, help='Path to save the output DataFrame of faces', required=True)
     parser.add_argument('--checkpoint', type=Path, help='Path to save the temporary per-video outputs', required=True)
