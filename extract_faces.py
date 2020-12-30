@@ -183,6 +183,8 @@ def process_video(item: Tuple[pd.Index, pd.Series],
                   lazycheck: bool = False,
                   deepcheck: bool = False,
                   ) -> (pd.DataFrame, Path, pd.DataFrame, Path, List[Tuple[Image.Image, Path]]) or None:
+
+    # Instatiate Index and Series
     idx, record = item
 
     # Checkpoint
@@ -239,7 +241,8 @@ def process_video(item: Tuple[pd.Index, pd.Series],
                                 frames[frame_idx]['frame_idx'], subj_id))
 
                             face_dict = {'facepath': str(face_path.relative_to(facedestination_dir)), 'video': idx,
-                                         'label': record['label'], 'videosubject': subj_id}
+                                         'label': record['label'], 'videosubject': subj_id, 'class': record['class'],
+                                         'source': record['source'], 'quality': record['quality'], 'original': record['original']}
                             for field_idx, key in enumerate(blazeface.BlazeFace.detection_keys):
                                 face_dict[key] = frames[frame_idx]['detections'][face_idx][field_idx]
 
