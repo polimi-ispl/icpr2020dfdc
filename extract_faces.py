@@ -244,11 +244,11 @@ def process_video(item: Tuple[pd.Index, pd.Series],
                                          'label': record['label'], 'videosubject': subj_id,
                                          'original': record['original']}
                             # add attibutes for ff++
-                            if 'class' in record.columns:
+                            if 'class' in record.keys():
                                 face_dict.update({'class': record['class']})
-                            if 'source' in record.columns:
+                            if 'source' in record.keys():
                                 face_dict.update({'source': record['source']})
-                            if 'quality' in record.columns:
+                            if 'quality' in record.keys():
                                 face_dict.update({'quality': record['quality']})
 
                             for field_idx, key in enumerate(blazeface.BlazeFace.detection_keys):
