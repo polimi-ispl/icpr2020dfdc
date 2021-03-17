@@ -241,8 +241,16 @@ def process_video(item: Tuple[pd.Index, pd.Series],
                                 frames[frame_idx]['frame_idx'], subj_id))
 
                             face_dict = {'facepath': str(face_path.relative_to(facedestination_dir)), 'video': idx,
-                                         'label': record['label'], 'videosubject': subj_id, 'class': record['class'],
-                                         'source': record['source'], 'quality': record['quality'], 'original': record['original']}
+                                         'label': record['label'], 'videosubject': subj_id,
+                                         'original': record['original']}
+                            # add attibutes for ff++
+                            if 'class' in record.columns:
+                                face_dict.update({'class': record['class']})
+                            if 'source' in record.columns:
+                                face_dict.update({'source': record['source']})
+                            if 'quality' in record.columns:
+                                face_dict.update({'quality': record['quality']})
+
                             for field_idx, key in enumerate(blazeface.BlazeFace.detection_keys):
                                 face_dict[key] = frames[frame_idx]['detections'][face_idx][field_idx]
 
