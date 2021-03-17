@@ -182,7 +182,7 @@ def process_video(item: Tuple[pd.Index, pd.Series],
                   face_extractor: FaceExtractor,
                   lazycheck: bool = False,
                   deepcheck: bool = False,
-                  ) -> (pd.DataFrame, Path, pd.DataFrame, Path, List[Tuple[Image.Image, Path]]) or None:
+                  ) -> (pd.DataFrame, Path, List[Tuple[Image.Image, Path]]) or None:
 
     # Instatiate Index and Series
     idx, record = item
