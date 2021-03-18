@@ -21,4 +21,5 @@ dependencies:
   - pip:
     - tensorboardx==2.0
     - efficientnet-pytorch
+    - scikit-learn
 
