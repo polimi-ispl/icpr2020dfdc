@@ -142,11 +142,26 @@ def main():
 
         if offset is not None:
             if num is not None:
-                facesdataset_path = facesdataset_path.parent.joinpath(str(facesdataset_path.parts[-1]).split('.')[0]+'_from_video_{}_to_video_{}.pkl'.format(offset, num+offset))
+                if facesdataset_path.is_dir():
+                    facesdataset_path = facesdataset_path.joinpath(
+                        'faces_df_from_video_{}_to_video_{}.pkl'.format(offset, num + offset))
+                else:
+                    facesdataset_path = facesdataset_path.parent.joinpath(
+                        str(facesdataset_path.parts[-1]).split('.')[0] + '_from_video_{}_to_video_{}.pkl'.format(offset,
+                                                                                                                 num + offset))
             else:
-                facesdataset_path = facesdataset_path.parent.joinpath(str(facesdataset_path.parts[-1]).split('.')[0] + '_from_video_{}.pkl'.format(offset))
+                if facesdataset_path.is_dir():
+                    facesdataset_path = facesdataset_path.joinpath('faces_df_from_video_{}.pkl'.format(offset))
+                else:
+                    facesdataset_path = facesdataset_path.parent.joinpath(
+                        str(facesdataset_path.parts[-1]).split('.')[0] + '_from_video_{}.pkl'.format(offset))
         elif num is not None:
-            facesdataset_path = facesdataset_path.parent.joinpath(str(facesdataset_path.parts[-1]).split('.')[0] + '_from_video_{}_to_video_{}.pkl'.format(0, num))
+            if facesdataset_path.is_dir():
+                facesdataset_path = facesdataset_path.joinpath(
+                    'faces_df_from_video_{}_to_video_{}.pkl'.format(0, num))
+            else:
+                facesdataset_path = facesdataset_path.parent.joinpath(
+                    str(facesdataset_path.parts[-1]).split('.')[0] + '_from_video_{}_to_video_{}.pkl'.format(0, num))
 
         # Creates directory (if doesn't exist)
         facesdataset_path.parent.mkdir(parents=True, exist_ok=True)
