@@ -33,8 +33,9 @@ $ ./scripts/make_dataset.sh
 Please note that we use only 32 frames per video. You can easily tweak this parameter in [extract_faces.py](extract_faces.py)
 
 ### Celeb-DF (v2)
-Altough we did not use this dataset in the paper, we provide a script [index_celebdf.py](index_celebdf.py) to index the videos similarly to 
-DFDC and FF++. Once you have the index, you can proceed with the pipeline starting from [extract_faces.py](extract_faces.py).
+Altough **we did not use this dataset in the paper**, we provide a script [index_celebdf.py](index_celebdf.py) to index the videos similarly to 
+DFDC and FF++. Once you have the index, you can proceed with the pipeline starting from [extract_faces.py](extract_faces.py). You can also use the 
+split `celebdf` during training/testing.
 
 ### Train
 In [train_all.sh](scripts/train_all.sh) you can find a comprehensive list of all the commands to train the models presented in the paper. 

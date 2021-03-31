@@ -21,6 +21,7 @@ available_datasets = [
     'ff-c23-720-140-140-15fpv',
     'ff-c23-720-140-140-20fpv',
     'ff-c23-720-140-140-25fpv',
+    'celebdf',  # just for convenience, not used in the original paper
 ]
 
 
@@ -74,6 +75,30 @@ def get_split_df(df: pd.DataFrame, dataset: str, split: str) -> pd.DataFrame:
                 idxs.append(np.random.choice(split_df[split_df['video'] == video].index, fpv, replace=False))
             idxs = np.concatenate(idxs)
             split_df = split_df.loc[idxs]
+        # Restore random state
+        np.random.set_state(st0)
+    elif dataset == 'celebdf':
+
+        seed = 41
+        num_real_train = 600
+
+        # Save random state
+        st0 = np.random.get_state()
+        # Set seed for this selection only
+        np.random.seed(seed)
+        # Split on original videos
+        random_train_val_real_videos = np.random.permutation(
+            df[(df['label'] == False) & (df['test'] == False)]['video'].unique())
+        train_orig = random_train_val_real_videos[:num_real_train]
+        val_orig = random_train_val_real_videos[num_real_train:]
+        if split == 'train':
+            split_df = pd.concat((df[df['original'].isin(train_orig)], df[df['video'].isin(train_orig)]), axis=0)
+        elif split == 'val':
+            split_df = pd.concat((df[df['original'].isin(val_orig)], df[df['video'].isin(val_orig)]), axis=0)
+        elif split == 'test':
+            split_df = df[df['test'] == True]
+        else:
+            raise NotImplementedError('Unknown split: {}'.format(split))
         # Restore random state
         np.random.set_state(st0)
     else:
