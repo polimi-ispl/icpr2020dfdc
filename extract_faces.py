@@ -140,8 +140,8 @@ def main():
         print('Saving videos DataFrame to {}'.format(videodataset_path))
         df_videos.to_pickle(str(videodataset_path))
 
-        if offset is not None:
-            if num is not None:
+        if offset > 0:
+            if num > 0:
                 if facesdataset_path.is_dir():
                     facesdataset_path = facesdataset_path.joinpath(
                         'faces_df_from_video_{}_to_video_{}.pkl'.format(offset, num + offset))
@@ -155,13 +155,16 @@ def main():
                 else:
                     facesdataset_path = facesdataset_path.parent.joinpath(
                         str(facesdataset_path.parts[-1]).split('.')[0] + '_from_video_{}.pkl'.format(offset))
-        elif num is not None:
+        elif num > 0:
             if facesdataset_path.is_dir():
                 facesdataset_path = facesdataset_path.joinpath(
                     'faces_df_from_video_{}_to_video_{}.pkl'.format(0, num))
             else:
                 facesdataset_path = facesdataset_path.parent.joinpath(
                     str(facesdataset_path.parts[-1]).split('.')[0] + '_from_video_{}_to_video_{}.pkl'.format(0, num))
+        else:
+            if facesdataset_path.is_dir():
+                facesdataset_path = facesdataset_path.joinpath('faces_df.pkl')  # just a check if the path is a dir
 
         # Creates directory (if doesn't exist)
         facesdataset_path.parent.mkdir(parents=True, exist_ok=True)

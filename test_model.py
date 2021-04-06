@@ -173,7 +173,7 @@ def main():
     out_folder.mkdir(mode=0o775, parents=True, exist_ok=True)
 
     # Samples selection
-    if max_num_videos_per_label is not None:
+    if max_num_videos_per_label > 0:
         dfs_out_train = [select_videos(df, max_num_videos_per_label) for df in train_dfs]
         dfs_out_val = [select_videos(df, max_num_videos_per_label) for df in val_dfs]
         dfs_out_test = [select_videos(df, max_num_videos_per_label) for df in test_dfs]
