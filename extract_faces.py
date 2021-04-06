@@ -29,7 +29,6 @@ from tqdm import tqdm
 import blazeface
 from blazeface import BlazeFace, VideoReader, FaceExtractor
 from isplutils.utils import adapt_bb
-import os
 
 
 def main():
@@ -108,6 +107,7 @@ def main():
                                                  deepcheck=deepcheck,
                                                  ),
                                          df_videos_process.iloc[batch_idx0:batch_idx0 + batch_size].iterrows()))
+
                 for tosave in tosave_list:
                     if tosave is not None:
                         if len(tosave[2]):
@@ -135,6 +135,10 @@ def main():
                     print('Error while reading: {}'.format(video_face_checkpoint_path))
                     print(e)
                     video_face_checkpoint_path.unlink()
+
+        if len(faces_dataset) == 0:
+            raise ValueError(f'No checkpoint found from face extraction. '
+                             f'Is the the source path {source_dir} correct for the videos in your dataframe?')
 
         # Save videos with updated faces
         print('Saving videos DataFrame to {}'.format(videodataset_path))
@@ -232,7 +236,13 @@ def process_video(item: Tuple[pd.Index, pd.Series],
             video_face_dict_list = []
 
             # Load faces
-            frames = face_extractor.process_video(source_dir.joinpath(record['path']))
+            current_video_path = source_dir.joinpath(record['path'])
+            if not current_video_path.exists():
+                raise FileNotFoundError(f'Unable to find {current_video_path}.'
+                                        f'Are you sure that {source_dir} is the correct source directory for the video '
+                                        f'you indexed in the dataframe?')
+
+            frames = face_extractor.process_video(current_video_path)
 
             if len(frames) == 0:
                 return
