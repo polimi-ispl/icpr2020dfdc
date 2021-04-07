@@ -12,6 +12,7 @@ Luca Bondi
 Paolo Bestagini
 """
 import argparse
+import sys
 from multiprocessing import Pool
 from pathlib import Path
 
@@ -21,16 +22,19 @@ import pandas as pd
 from isplutils.utils import extract_meta_av, extract_meta_cv
 
 
-def main():
+def parse_args(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, help='Source dir',
                         default='dataset/ffpp/faceforensics')
     parser.add_argument('--videodataset', type=Path, default='data/ffpp_videos.pkl',
                         help='Path to save the videos DataFrame')
 
-    args = parser.parse_args()
+    return parser.parse_args(argv)
 
+
+def main(argv):
     ## Parameters parsing
+    args = parse_args(argv)
     source_dir: Path = args.source
     videodataset_path: Path = args.videodataset
 
@@ -85,4 +89,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
