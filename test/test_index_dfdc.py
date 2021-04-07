@@ -48,7 +48,7 @@ class TestDFDC(unittest.TestCase):
                 '--fpv', str(fpv),
                 # '--device', 'cpu'  # TODO: remove this
                 ]
-        
+
         extract_faces_main(argv)
 
         self.assertEqual(len(list(pathlib.Path(facesfolder_path).joinpath('dfdc_train_part_0/awnfpubqmo.mp4')
