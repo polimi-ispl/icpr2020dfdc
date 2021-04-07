@@ -1,4 +1,8 @@
 # Video Face Manipulation Detection Through Ensemble of CNNs
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-face-manipulation-detection-through/deepfake-detection-on-dfdc)](https://paperswithcode.com/sota/deepfake-detection-on-dfdc?p=video-face-manipulation-detection-through)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-face-manipulation-detection-through/deepfake-detection-on-faceforensics-1)](https://paperswithcode.com/sota/deepfake-detection-on-faceforensics-1?p=video-face-manipulation-detection-through)
+
+
 ![](assets/faces_attention.png)
 
 This is the official repository of **Video Face Manipulation Detection Through Ensemble of CNNs**,
