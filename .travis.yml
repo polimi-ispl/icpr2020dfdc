@@ -9,4 +9,6 @@ before_script:
   - source activate icpr2020
   - cd test
 script:
-  - python -m unittest test_index_dfdc.TestDFDC
+  - python -m unittest test_dfdc.TestDFDC
+  - python -m unittest test_ffpp.TestFFPP
+
