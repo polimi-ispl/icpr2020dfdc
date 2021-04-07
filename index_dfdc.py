@@ -11,6 +11,7 @@ Sara Mandelli
 Luca Bondi
 Paolo Bestagini
 """
+import sys
 import argparse
 from multiprocessing import Pool
 from pathlib import Path
@@ -21,15 +22,19 @@ from tqdm import tqdm
 
 from isplutils.utils import extract_meta_av
 
-
-def main():
+def parse_args(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, help='Source dir', required=True)
     parser.add_argument('--videodataset', type=Path, default='data/dfdc_videos.pkl',
                         help='Path to save the videos DataFrame')
     parser.add_argument('--batch', type=int, help='Batch size', default=64)
 
-    args = parser.parse_args()
+    return parser.parse_args(argv)
+
+
+def main(argv):
+
+    args = parse_args(argv)
 
     ## Parameters parsing
     source_dir: Path = args.source
@@ -87,4 +92,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])

@@ -32,7 +32,7 @@ from isplutils.utils import adapt_bb
 import os
 
 
-def main():
+def parse_args(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, help='Videos root directory', required=True)
     parser.add_argument('--videodf', type=Path, help='Path to read the videos DataFrame', required=True)
@@ -53,7 +53,11 @@ def main():
     parser.add_argument('--lazycheck', action='store_true', help='Lazy check of existing video indexes')
     parser.add_argument('--deepcheck', action='store_true', help='Try to open every image')
 
-    args = parser.parse_args()
+    return parser.parse_args(argv)
+
+
+def main(argv):
+    args = parse_args(argv)
 
     ## Parameters parsing
     device: torch.device = args.device
@@ -201,7 +205,6 @@ def process_video(item: Tuple[pd.Index, pd.Series],
                   lazycheck: bool = False,
                   deepcheck: bool = False,
                   ) -> (pd.DataFrame, Path, List[Tuple[Image.Image, Path]]) or None:
-
     # Instatiate Index and Series
     idx, record = item
 
@@ -329,4 +332,4 @@ def process_video(item: Tuple[pd.Index, pd.Series],
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
