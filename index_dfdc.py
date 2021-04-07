@@ -22,6 +22,7 @@ from tqdm import tqdm
 
 from isplutils.utils import extract_meta_av
 
+
 def parse_args(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, help='Source dir', required=True)
@@ -33,7 +34,6 @@ def parse_args(argv):
 
 
 def main(argv):
-
     args = parse_args(argv)
 
     ## Parameters parsing
