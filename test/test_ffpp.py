@@ -46,7 +46,7 @@ class TestFFPP(unittest.TestCase):
                 '--facesdf', faces_df_path,
                 '--checkpoint', checkpoint_path,
                 '--fpv', str(fpv),
-                '--device', 'cuda:5'  # TODO: remove this
+                # '--device', 'cuda:5'  # TODO: remove this
                 ]
 
         extract_faces_main(argv)
