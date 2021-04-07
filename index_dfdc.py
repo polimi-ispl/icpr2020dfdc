@@ -34,9 +34,8 @@ def parse_args(argv):
 
 
 def main(argv):
-    args = parse_args(argv)
-
     ## Parameters parsing
+    args = parse_args(argv)
     source_dir: Path = args.source
     videodataset_path: Path = args.videodataset
     batch_size: int = args.batch
