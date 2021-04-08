@@ -62,7 +62,19 @@ Each directory is named `$NETWORK_$DATASET` where `$NETWORK` is the architecture
 In each directory, you can find `bestval.pth` which are the best network weights according to the validation set.
 
 
-Additionally, you can find notebooks for results computations in the [notebook](notebook) folder.
+Additionally, you can find Jupyter notebooks for results computations in the [notebook](notebook) folder:
+- [Image prediction](notebook/Image%20prediction.ipynb) <a target="_blank" href="https://colab.research.google.com/drive/19oVKlzEr58VZfRnSq-nW8kFYuxkh3GM8?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg">
+</a>
+  
+- [Video prediction](notebook/Video%20prediction.ipynb) <a target="_blank" href="https://colab.research.google.com/drive/12WnvmerHBNbJ49HdoH1lli_O8SwaFPjv?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg">
+</a>
+  
+- [Image prediction and attention](notebook/Image%20prediction%20and%20attention.ipynb) <a target="_blank" href="https://colab.research.google.com/drive/1zcglis2Qx2vtJhrogn8aKA-mbUotLZLK?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg">
+</a>
+  
 
 ## Datasets
 - [Facebook's DeepFake Detection Challenge (DFDC) train dataset](https://www.kaggle.com/c/deepfake-detection-challenge/data) | [arXiv paper](https://arxiv.org/abs/2006.07397)
