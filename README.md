@@ -24,8 +24,17 @@ $ conda activate icpr2020
 
 ### Quick run
 If you just want to test the pre-trained models against your own videos or images:
-- [Video prediction notebook](https://github.com/polimi-ispl/icpr2020dfdc/blob/master/notebook/Video%20prediction.ipynb)
-- [Image prediction notebook](https://github.com/polimi-ispl/icpr2020dfdc/blob/master/notebook/Image%20prediction.ipynb)
+- [Video prediction notebook](https://github.com/polimi-ispl/icpr2020dfdc/blob/master/notebook/Video%20prediction.ipynb) <a target="_blank" href="https://colab.research.google.com/drive/12WnvmerHBNbJ49HdoH1lli_O8SwaFPjv?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg">
+</a>
+
+- [Image prediction notebook](https://github.com/polimi-ispl/icpr2020dfdc/blob/master/notebook/Image%20prediction.ipynb) <a target="_blank" href="https://colab.research.google.com/drive/19oVKlzEr58VZfRnSq-nW8kFYuxkh3GM8?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg">
+</a>
+
+- [Image prediction with attention](notebook/Image%20prediction%20and%20attention.ipynb) <a target="_blank" href="https://colab.research.google.com/drive/1zcglis2Qx2vtJhrogn8aKA-mbUotLZLK?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg">
+</a>
 
 ### The whole pipeline
 You need to preprocess the datasets in order to index all the samples and extract faces. Just run the script [make_dataset.sh](scripts/make_dataset.sh)
@@ -62,18 +71,7 @@ Each directory is named `$NETWORK_$DATASET` where `$NETWORK` is the architecture
 In each directory, you can find `bestval.pth` which are the best network weights according to the validation set.
 
 
-Additionally, you can find Jupyter notebooks for results computations in the [notebook](notebook) folder:
-- [Image prediction](notebook/Image%20prediction.ipynb) <a target="_blank" href="https://colab.research.google.com/drive/19oVKlzEr58VZfRnSq-nW8kFYuxkh3GM8?usp=sharing">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg">
-</a>
-  
-- [Video prediction](notebook/Video%20prediction.ipynb) <a target="_blank" href="https://colab.research.google.com/drive/12WnvmerHBNbJ49HdoH1lli_O8SwaFPjv?usp=sharing">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg">
-</a>
-  
-- [Image prediction and attention](notebook/Image%20prediction%20and%20attention.ipynb) <a target="_blank" href="https://colab.research.google.com/drive/1zcglis2Qx2vtJhrogn8aKA-mbUotLZLK?usp=sharing">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg">
-</a>
+Additionally, you can find Jupyter notebooks for results computations in the [notebook](notebook) folder.
   
 
 ## Datasets
