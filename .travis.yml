@@ -1,0 +1,15 @@
+language: python
+python:
+  - "3.6.9"
+install:
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $HOME/miniconda.sh
+  - bash $HOME/miniconda.sh -bfp $HOME/miniconda3
+  - export PATH=$HOME/miniconda3/bin:$PATH
+  - conda env create -f environment.yml
+before_script:
+  - source activate icpr2020
+  - cd test
+script:
+  - python -m unittest test_dfdc.TestDFDC
+  - python -m unittest test_ffpp.TestFFPP
+
