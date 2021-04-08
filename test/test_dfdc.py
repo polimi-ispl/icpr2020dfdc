@@ -26,7 +26,7 @@ class TestDFDC(unittest.TestCase):
 
         videos_df = pd.read_pickle(df_out)
 
-        self.assertEqual(videos_df.shape, (6225, 7))
+        self.assertEqual(videos_df.shape, (6, 7))
         self.assertEqual(videos_df[videos_df.frames > 0].shape, (6, 7))
 
     def test_2_extract_faces(self):
