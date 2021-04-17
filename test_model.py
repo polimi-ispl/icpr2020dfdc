@@ -76,7 +76,7 @@ def main():
     parser.add_argument('--models_dir', type=Path, help='Folder with trained models',
                         default='weights/')
 
-    parser.add_argument('--num_video', type=int, help='Number of real-fake videos to test')
+    parser.add_argument('--num_video', type=int, help='Number of real-fake videos to test',required=True)
     parser.add_argument('--results_dir', type=Path, help='Output folder',
                         default='results/')
 
