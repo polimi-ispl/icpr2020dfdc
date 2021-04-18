@@ -76,7 +76,7 @@ def main():
     parser.add_argument('--models_dir', type=Path, help='Folder with trained models',
                         default='weights/')
 
-    parser.add_argument('--num_video', type=int, help='Number of real-fake videos to test',required=True)
+    parser.add_argument('--num_video', type=int, help='Number of real-fake videos to test')
     parser.add_argument('--results_dir', type=Path, help='Output folder',
                         default='results/')
 
@@ -173,7 +173,7 @@ def main():
     out_folder.mkdir(mode=0o775, parents=True, exist_ok=True)
 
     # Samples selection
-    if max_num_videos_per_label > 0:
+    if max_num_videos_per_label and max_num_videos_per_label > 0:
         dfs_out_train = [select_videos(df, max_num_videos_per_label) for df in train_dfs]
         dfs_out_val = [select_videos(df, max_num_videos_per_label) for df in val_dfs]
         dfs_out_test = [select_videos(df, max_num_videos_per_label) for df in test_dfs]
