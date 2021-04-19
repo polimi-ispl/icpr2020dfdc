@@ -93,4 +93,4 @@ class TestFFPP(unittest.TestCase):
                                   .glob('*.jpg'))), 5)
 
         faces_df = pd.read_pickle(faces_df_path)
-        self.assertEqual(faces_df.shape, (50, 25))
+        self.assertEqual(faces_df.shape, (50, 26))
