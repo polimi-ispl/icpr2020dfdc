@@ -186,7 +186,8 @@ def main(argv):
         df_faces['videosubject'] = df_faces['videosubject'].astype(np.int8)
         # Eventually remove duplicates
         df_faces = df_faces.loc[~df_faces.index.duplicated(keep='first')]
-        fields_to_preserve_from_video = [i for i in ['folder', 'subject', 'scene', 'cluster', 'nfaces'] if
+        fields_to_preserve_from_video = [i for i in
+                                         ['folder', 'subject', 'scene', 'cluster', 'nfaces', 'original', 'test'] if
                                          i in df_videos]
         df_faces = pd.merge(df_faces, df_videos[fields_to_preserve_from_video], left_on='video',
                             right_index=True)
