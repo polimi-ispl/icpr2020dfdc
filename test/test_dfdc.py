@@ -65,4 +65,4 @@ class TestDFDC(unittest.TestCase):
                                   .glob('*.jpg'))), 5)
 
         faces_df = pd.read_pickle(faces_df_path)
-        self.assertEqual(faces_df.shape, (30, 24))
+        self.assertEqual(faces_df.shape, (30, 23))
