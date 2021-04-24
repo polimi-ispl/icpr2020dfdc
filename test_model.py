@@ -50,32 +50,16 @@ def main():
                         help='Path to the directory containing the faces extracted from the FF++ dataset. '
                              'Required for training/validating on the FF++ dataset.')
 
-    # Alternative 1: Specify training params
-    parser.add_argument('--net', type=str, help='Net model class')
-    parser.add_argument('--traindb', type=str, help='Dataset(s) used for training', nargs='+', choices=split.available_datasets)
-    parser.add_argument('--face', type=str, help='Face crop or scale', default='scale',
-                        choices=['scale', 'tight'])
-    parser.add_argument('--size', type=int, help='Train patch size')
-
-    weights_group = parser.add_mutually_exclusive_group(required=True)
-    weights_group.add_argument('--weights', type=Path, help='Weight filename', default='bestval.pth')
-
-    # Alternative 2: Specify trained model path
-    weights_group.add_argument('--model_path', type=Path, help='Full path of the trained model')
+    # Specify trained model path
+    parser.add_argument('--model_path', type=Path, help='Full path of the trained model', required=True)
 
     # Common params
     parser.add_argument('--batch', type=int, help='Batch size to fit in GPU memory', default=128)
 
     parser.add_argument('--workers', type=int, help='Num workers for data loaders', default=6)
     parser.add_argument('--device', type=int, help='GPU id', default=0)
-    parser.add_argument('--seed', type=int, help='Random seed used for training', default=0)
 
     parser.add_argument('--debug', action='store_true', help='Debug flag', )
-    parser.add_argument('--suffix', type=str, help='Suffix to default tag')
-
-    parser.add_argument('--models_dir', type=Path, help='Folder with trained models',
-                        default='weights/')
-
     parser.add_argument('--num_video', type=int, help='Number of real-fake videos to test')
     parser.add_argument('--results_dir', type=Path, help='Output folder',
                         default='results/')
@@ -85,21 +69,13 @@ def main():
     args = parser.parse_args()
 
     device = torch.device('cuda:{}'.format(args.device)) if torch.cuda.is_available() else torch.device('cpu')
-    patch_size: int = args.size
     num_workers: int = args.workers
     batch_size: int = args.batch
-    net_name: str = args.net
-    weights: Path = args.weights
-    suffix: str = args.suffix
-    face_policy: str = args.face
-    models_dir: Path = args.models_dir
     max_num_videos_per_label: int = args.num_video  # number of real-fake videos to test
     model_path: Path = args.model_path
     results_dir: Path = args.results_dir
     debug: bool = args.debug
     override: bool = args.override
-    train_datasets = args.traindb
-    seed: int = args.seed
     test_sets = args.testsets
     test_splits = args.testsplits
     dfdc_df_path = args.dfdc_faces_df_path
@@ -107,26 +83,11 @@ def main():
     dfdc_faces_dir = args.dfdc_faces_dir
     ffpp_faces_dir = args.ffpp_faces_dir
 
-    if model_path is None:
-        if net_name is None:
-            raise RuntimeError('Net name is required if \"model_path\" is not provided')
-
-        model_name = utils.make_train_tag(net_class=getattr(fornet, net_name),
-                                          traindb=train_datasets,
-                                          face_policy=face_policy,
-                                          patch_size=patch_size,
-                                          seed=seed,
-                                          suffix=suffix,
-                                          debug=debug,
-                                          )
-        model_path = models_dir.joinpath(model_name, weights)
-
-    else:
-        # get arguments from the model path
-        face_policy = str(model_path).split('face-')[1].split('_')[0]
-        patch_size = int(str(model_path).split('size-')[1].split('_')[0])
-        net_name = str(model_path).split('net-')[1].split('_')[0]
-        model_name = '_'.join(model_path.with_suffix('').parts[-2:])
+    # get arguments from the model path
+    face_policy = str(model_path).split('face-')[1].split('_')[0]
+    patch_size = int(str(model_path).split('size-')[1].split('_')[0])
+    net_name = str(model_path).split('net-')[1].split('_')[0]
+    model_name = '_'.join(model_path.with_suffix('').parts[-2:])
 
     # Load net
     net_class = getattr(fornet, net_name)
