@@ -52,7 +52,7 @@ def main():
 
     # Alternative 1: Specify training params
     parser.add_argument('--net', type=str, help='Net model class')
-    parser.add_argument('--traindb', type=str, action='store', help='Dataset used for training')
+    parser.add_argument('--traindb', type=str, help='Dataset(s) used for training', nargs='+', choices=split.available_datasets)
     parser.add_argument('--face', type=str, help='Face crop or scale', default='scale',
                         choices=['scale', 'tight'])
     parser.add_argument('--size', type=int, help='Train patch size')
