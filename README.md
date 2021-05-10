@@ -6,7 +6,8 @@
 ![](assets/faces_attention.png)
 
 This is the official repository of **Video Face Manipulation Detection Through Ensemble of CNNs**,
-accepted to [ICPR2020](https://www.micc.unifi.it/icpr2020/) and currently available on [arXiv](https://arxiv.org/abs/2004.07676).
+accepted to [ICPR2020](https://www.micc.unifi.it/icpr2020/) and currently available on [IEEExplore](https://ieeexplore.ieee.org/document/9412711) and [arXiv](https://arxiv.org/abs/2004.07676).
+If you use this repository for your research, please consider citing our paper. Refer to [How to cite](https://github.com/polimi-ispl/icpr2020dfdc#how-to-cite) section to get the correct entry for your bibliography.
 
 We participated as the **ISPL** team in the [Kaggle Deepfake Detection Challenge](https://www.kaggle.com/c/deepfake-detection-challenge/).
 With this implementation, we reached the 41st position over 2116 teams (**top 2%**) on the [private leaderboard](https://www.kaggle.com/c/deepfake-detection-challenge/leaderboard).
@@ -83,6 +84,24 @@ Additionally, you can find Jupyter notebooks for results computations in the [no
 - [EfficientNet PyTorch](https://github.com/lukemelas/EfficientNet-PyTorch)
 - [Xception PyTorch](https://github.com/tstandley/Xception-PyTorch)
 
+## How to cite
+Plain text:
+```
+N. Bonettini, E. D. Cannas, S. Mandelli, L. Bondi, P. Bestagini and S. Tubaro, "Video Face Manipulation Detection Through Ensemble of CNNs," 2020 25th International Conference on Pattern Recognition (ICPR), 2021, pp. 5012-5019, doi: 10.1109/ICPR48806.2021.9412711.
+```
+
+Bibtex:
+```bibtex
+@INPROCEEDINGS{9412711,
+  author={Bonettini, Nicolò and Cannas, Edoardo Daniele and Mandelli, Sara and Bondi, Luca and Bestagini, Paolo and Tubaro, Stefano},
+  booktitle={2020 25th International Conference on Pattern Recognition (ICPR)}, 
+  title={Video Face Manipulation Detection Through Ensemble of CNNs}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={5012-5019},
+  doi={10.1109/ICPR48806.2021.9412711}}
+```
 ## Credits
 [Image and Sound Processing Lab - Politecnico di Milano](http://ispl.deib.polimi.it/)
 - Nicolò Bonettini
