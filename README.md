@@ -6,8 +6,6 @@
 ![](assets/faces_attention.png)
 
 <p align='center'>
-  <img src='assets/cnfidfeyln_face.gif'/>
-  <img src='assets/cnfidfeyln_face_att.gif'/>
   <img src='assets/mqzvfufzoq_face.gif'/>
   <img src='assets/mqzvfufzoq_face_att.gif'/>
 </p>
