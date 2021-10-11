@@ -5,8 +5,15 @@
 
 ![](assets/faces_attention.png)
 
+<p align='center'>
+  <img src='assets/cnfidfeyln_face.gif'/>
+  <img src='assets/cnfidfeyln_face_att.gif'/>
+  <img src='assets/mqzvfufzoq_face.gif'/>
+  <img src='assets/mqzvfufzoq_face_att.gif'/>
+</p>
+
 This is the official repository of **Video Face Manipulation Detection Through Ensemble of CNNs**,
-accepted to [ICPR2020](https://www.micc.unifi.it/icpr2020/) and currently available on [IEEExplore](https://ieeexplore.ieee.org/document/9412711) and [arXiv](https://arxiv.org/abs/2004.07676).
+presented at [ICPR2020](https://www.micc.unifi.it/icpr2020/) and currently available on [IEEExplore](https://ieeexplore.ieee.org/document/9412711) and [arXiv](https://arxiv.org/abs/2004.07676).
 If you use this repository for your research, please consider citing our paper. Refer to [How to cite](https://github.com/polimi-ispl/icpr2020dfdc#how-to-cite) section to get the correct entry for your bibliography.
 
 We participated as the **ISPL** team in the [Kaggle Deepfake Detection Challenge](https://www.kaggle.com/c/deepfake-detection-challenge/).
