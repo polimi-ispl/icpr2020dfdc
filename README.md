@@ -27,6 +27,7 @@ This repository is currently under maintenance, if you are experiencing any prob
 $ conda env create -f environment.yml
 $ conda activate icpr2020
 ```
+- Download and unzip the [datasets](#datasets)
 
 ### Quick run
 If you just want to test the pre-trained models against your own videos or images:
