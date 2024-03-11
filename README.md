@@ -27,6 +27,7 @@ This repository is currently under maintenance, if you are experiencing any prob
 $ conda env create -f environment.yml
 $ conda activate icpr2020
 ```
+- Download and unzip the [datasets](#datasets)
 
 ### Quick run
 If you just want to test the pre-trained models against your own videos or images:
@@ -49,7 +50,10 @@ You need to preprocess the datasets in order to index all the samples and extrac
 $ ./scripts/make_dataset.sh
 ```
 
-Please note that we use only 32 frames per video. You can easily tweak this parameter in [extract_faces.py](extract_faces.py)
+Please note that we use only 32 frames per video. You can easily tweak this parameter in [extract_faces.py](extract_faces.py)  
+Also, please note that **for the DFDC** we have resorted to _the training split_ exclusively!  
+In `scripts/make_dataset.sh` the value of `DFDC_SRC` should point to the directory containing the DFDC train split.
+
 
 ### Celeb-DF (v2)
 Altough **we did not use this dataset in the paper**, we provide a script [index_celebdf.py](index_celebdf.py) to index the videos similarly to 

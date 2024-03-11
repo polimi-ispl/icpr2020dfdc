@@ -5,7 +5,7 @@ echo "-------------------------------------------------"
 echo "| Index DFDC dataset                            |"
 echo "-------------------------------------------------"
 # put your dfdc source directory path and uncomment the following line
-# DFDC_SRC=/your/dfdc/source/directory
+# DFDC_SRC=/your/dfdc/train/split/source/directory
 python index_dfdc.py --source $DFDC_SRC
 
 echo ""
