@@ -206,7 +206,7 @@ class VideoReaderIspl(VideoReader):
         video_rate = capture.get(cv2.CAP_PROP_FPS)
         hop = 1 if fps == -1 else max(video_rate // fps, 1)
         end_pts = frame_count if num_frames == -1 else num_frames * hop
-        frame_idxs = np.arange(0, end_pts - 1, hop, endpoint=True, dtype=np.int)
+        frame_idxs = np.arange(0, end_pts - 1, hop, endpoint=True, dtype=int)
 
         result = self._read_frames_at_indices(path, capture, frame_idxs)
         capture.release()

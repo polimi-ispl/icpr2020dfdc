@@ -387,7 +387,7 @@ class FaceExtractor:
         """
         faces = []
         for i in range(len(detections)):
-            ymin, xmin, ymax, xmax = detections[i, :4].cpu().numpy().astype(np.int)
+            ymin, xmin, ymax, xmax = detections[i, :4].cpu().numpy().astype(int)
             face = frame[ymin:ymax, xmin:xmax, :]
             faces.append(face)
         return faces
@@ -408,7 +408,7 @@ class FaceExtractor:
         for i in range(len(detections)):
             kpts = []
             size = int(face_fraction * min(detections[i, 2] - detections[i, 0], detections[i, 3] - detections[i, 1]))
-            kpts_coords = detections[i, 4:16].cpu().numpy().astype(np.int)
+            kpts_coords = detections[i, 4:16].cpu().numpy().astype(int)
             for kpidx in range(6):
                 kpx, kpy = kpts_coords[kpidx * 2:kpidx * 2 + 2]
                 kpt = frame[kpy - size // 2:kpy - size // 2 + size, kpx - size // 2:kpx - size // 2 + size, ]
