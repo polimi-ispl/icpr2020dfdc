@@ -37,7 +37,7 @@ class VideoReader:
         frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
         if frame_count <= 0: return None
 
-        frame_idxs = np.linspace(0, frame_count - 1, num_frames, endpoint=True, dtype=np.int)
+        frame_idxs = np.linspace(0, frame_count - 1, num_frames, endpoint=True, dtype=int)
         frame_idxs = np.unique(frame_idxs)  # Avoid repeating frame idxs otherwise it breaks reading
         if jitter > 0:
             np.random.seed(seed)
