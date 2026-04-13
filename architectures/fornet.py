@@ -1,40 +1,268 @@
-"""
-Video Face Manipulation Detection Through Ensemble of CNNs
-
-Image and Sound Processing Lab - Politecnico di Milano
-
-Nicolò Bonettini
-Edoardo Daniele Cannas
-Sara Mandelli
-Luca Bondi
-Paolo Bestagini
-"""
 from collections import OrderedDict
-
 import torch
-from efficientnet_pytorch import EfficientNet
-from torch import nn as nn
+from torch import nn
 from torch.nn import functional as F
 from torchvision import transforms
+from efficientnet_pytorch import EfficientNet
 
 from . import externals
 
-"""
-Feature Extractor
-"""
 
-
+# =========================================================
+# Base Feature Extractor
+# =========================================================
 class FeatureExtractor(nn.Module):
-    """
-    Abstract class to be extended when supporting features extraction.
-    It also provides standard normalized and parameters
-    """
 
     def features(self, x: torch.Tensor) -> torch.Tensor:
         raise NotImplementedError
 
     def get_trainable_parameters(self):
         return self.parameters()
+
+    @staticmethod
+    def get_normalizer():
+        return transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225]
+        )
+
+
+# =========================================================
+# EfficientNet Base
+# =========================================================
+class EfficientNetGen(FeatureExtractor):
+
+    def __init__(self, model: str):
+        super().__init__()
+
+        self.efficientnet = EfficientNet.from_pretrained(model)
+
+        in_features = self.efficientnet._conv_head.out_channels
+
+        self.classifier = nn.Linear(in_features, 1)
+
+        # remove original FC
+        if hasattr(self.efficientnet, "_fc"):
+            del self.efficientnet._fc
+
+        self._init_weights()
+
+    def _init_weights(self):
+        for m in self.classifier.modules():
+            if isinstance(m, nn.Linear):
+                nn.init.kaiming_normal_(m.weight)
+
+    def features(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.efficientnet.extract_features(x)
+        x = self.efficientnet._avg_pooling(x)
+        x = x.flatten(start_dim=1)
+        return x
+
+    def forward(self, x):
+        x = self.features(x)
+        x = self.efficientnet._dropout(x)
+        x = self.classifier(x)
+        return x  # use sigmoid outside if needed
+
+
+class EfficientNetB4(EfficientNetGen):
+    def __init__(self):
+        super().__init__('efficientnet-b4')
+
+
+# =========================================================
+# EfficientNet with Attention
+# =========================================================
+class EfficientNetAutoAtt(EfficientNet):
+
+    def __init__(self, blocks_args=None, global_params=None):
+        super().__init__(blocks_args, global_params)
+
+    def init_att(self, model: str, width: int):
+
+        if model != 'efficientnet-b4':
+            raise ValueError(f'Model not supported: {model}')
+
+        self.att_block_idx = 9
+
+        # dynamic channels
+        in_ch = self._blocks[self.att_block_idx]._block_args.output_filters
+
+        if width == 0:
+            self.attconv = nn.Conv2d(in_ch, 1, kernel_size=1)
+        else:
+            layers = []
+            for i in range(width):
+                layers.append((f'conv{i}', nn.Conv2d(in_ch, in_ch, 3, padding=1)))
+                layers.append((f'relu{i}', nn.ReLU(inplace=True)))
+            layers.append(('conv_out', nn.Conv2d(in_ch, 1, kernel_size=1)))
+
+            self.attconv = nn.Sequential(OrderedDict(layers))
+
+        self._init_att_weights()
+
+    def _init_att_weights(self):
+        for m in self.attconv.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight)
+
+    def get_attention(self, x: torch.Tensor) -> torch.Tensor:
+
+        att = None
+
+        x = self._swish(self._bn0(self._conv_stem(x)))
+
+        for idx, block in enumerate(self._blocks):
+            drop_connect_rate = self._global_params.drop_connect_rate
+            if drop_connect_rate:
+                drop_connect_rate *= float(idx) / len(self._blocks)
+
+            x = block(x, drop_connect_rate=drop_connect_rate)
+
+            if idx == self.att_block_idx:
+                att = torch.sigmoid(self.attconv(x))
+                break
+
+        if att is None:
+            raise RuntimeError("Attention map not computed")
+
+        return att
+
+    def extract_features(self, x: torch.Tensor) -> torch.Tensor:
+
+        x = self._swish(self._bn0(self._conv_stem(x)))
+
+        for idx, block in enumerate(self._blocks):
+            drop_connect_rate = self._global_params.drop_connect_rate
+            if drop_connect_rate:
+                drop_connect_rate *= float(idx) / len(self._blocks)
+
+            x = block(x, drop_connect_rate=drop_connect_rate)
+
+            if idx == self.att_block_idx:
+                att = torch.sigmoid(self.attconv(x))
+                x = x * att
+
+        x = self._swish(self._bn1(self._conv_head(x)))
+
+        return x
+
+
+class EfficientNetGenAutoAtt(FeatureExtractor):
+
+    def __init__(self, model: str, width: int):
+        super().__init__()
+
+        self.efficientnet = EfficientNetAutoAtt.from_pretrained(model)
+        self.efficientnet.init_att(model, width)
+
+        in_features = self.efficientnet._conv_head.out_channels
+        self.classifier = nn.Linear(in_features, 1)
+
+        if hasattr(self.efficientnet, "_fc"):
+            del self.efficientnet._fc
+
+        self._init_weights()
+
+    def _init_weights(self):
+        for m in self.classifier.modules():
+            if isinstance(m, nn.Linear):
+                nn.init.kaiming_normal_(m.weight)
+
+    def features(self, x):
+        x = self.efficientnet.extract_features(x)
+        x = self.efficientnet._avg_pooling(x)
+        x = x.flatten(start_dim=1)
+        return x
+
+    def forward(self, x):
+        x = self.features(x)
+        x = self.efficientnet._dropout(x)
+        x = self.classifier(x)
+        return x
+
+    def get_attention(self, x):
+        return self.efficientnet.get_attention(x)
+
+
+class EfficientNetAutoAttB4(EfficientNetGenAutoAtt):
+    def __init__(self):
+        super().__init__('efficientnet-b4', width=0)
+
+
+# =========================================================
+# Xception
+# =========================================================
+class Xception(FeatureExtractor):
+
+    def __init__(self):
+        super().__init__()
+        self.xception = externals.xception()
+        self.xception.last_linear = nn.Linear(2048, 1)
+
+    def features(self, x):
+        x = self.xception.features(x)
+        x = nn.ReLU(inplace=True)(x)
+        x = F.adaptive_avg_pool2d(x, (1, 1))
+        x = x.view(x.size(0), -1)
+        return x
+
+    def forward(self, x):
+        return self.xception(x)
+
+
+# =========================================================
+# Siamese Tuning
+# =========================================================
+class SiameseTuning(FeatureExtractor):
+
+    def __init__(self, feat_ext, num_feat, lastonly=True):
+        super().__init__()
+
+        self.feat_ext = feat_ext()
+
+        if not hasattr(self.feat_ext, 'features'):
+            raise NotImplementedError("Feature extractor must implement features()")
+
+        self.lastonly = lastonly
+
+        # freeze backbone if needed
+        if self.lastonly:
+            for p in self.feat_ext.parameters():
+                p.requires_grad = False
+
+        self.classifier = nn.Sequential(
+            nn.BatchNorm1d(num_feat),
+            nn.Linear(num_feat, 1),
+        )
+
+    def features(self, x):
+        return self.feat_ext.features(x)
+
+    def forward(self, x):
+        x = self.features(x)
+        x = self.classifier(x)
+        return x
+
+    def get_trainable_parameters(self):
+        if self.lastonly:
+            return self.classifier.parameters()
+        return self.parameters()
+
+
+class EfficientNetB4ST(SiameseTuning):
+    def __init__(self):
+        super().__init__(EfficientNetB4, 1792, lastonly=True)
+
+
+class EfficientNetAutoAttB4ST(SiameseTuning):
+    def __init__(self):
+        super().__init__(EfficientNetAutoAttB4, 1792, lastonly=True)
+
+
+class XceptionST(SiameseTuning):
+    def __init__(self):
+        super().__init__(Xception, 2048, lastonly=True)        return self.parameters()
 
     @staticmethod
     def get_normalizer():
